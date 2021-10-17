@@ -27,4 +27,20 @@ function setupClient(channelName) {
   });
 
   client.connect();
+
+  client.on('message', (channel, tags, message, self) => {
+    var username = document.getElementById("userName").value;
+
+    if (tags['display-name'] == username || username == '') {
+      updateUI(`${tags['display-name']}`, `${message}`);
+    }
+    else if (tags['display-name'] != username && document.getElementById("userName").placeholder != username) {
+      updateUI('', '');
+    }
+  });
+}
+
+function updateUI(username, message) {
+  document.getElementById("userName").placeholder = username;
+  document.getElementById("lastMessage").innerHTML = message;
 }
