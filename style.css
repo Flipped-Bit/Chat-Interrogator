@@ -1,0 +1,19 @@
+body {
+    border: 1px dashed white;
+    -webkit-app-region: drag;
+    height: 520px;
+    width: 925px;
+  }
+input {
+    -webkit-app-region: no-drag;
+}
+
+.button-hidden {opacity: 0;}
+.button-hidden:hover {opacity: 1;}
+
+#closeBtn{
+  background-color: red; 
+  float: right; 
+  height: 25px; 
+  width: 25px;
+}
