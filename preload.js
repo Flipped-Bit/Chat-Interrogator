@@ -27,4 +27,12 @@ function setupClient(channelName) {
   });
 
   client.connect();
+
+  client.on('message', (channel, tags, message, self) => {
+      updateUI(message);
+  });
+}
+
+function updateUI(message) {
+  document.getElementById("lastMessage").innerHTML = message;
 }
