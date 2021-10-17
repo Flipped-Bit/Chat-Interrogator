@@ -5,10 +5,32 @@ const { ipcRenderer } = require('electron');
 const tmi = require('tmi.js');
 
 window.addEventListener('DOMContentLoaded', () => {
-  setupClient("castlehead");
+  var channelName = document.getElementById("channelName").value;
+  setupClient(channelName);
 
   document.getElementById("closeBtn").addEventListener("click", function (e) {
     ipcRenderer.send('closeApp');
+  });
+
+  document.getElementById("editChannel").addEventListener("click", function (e) {
+    var btn = document.getElementById("editChannel");
+    var input = document.getElementById("channelName");
+
+    switch (btn.value) {
+      case "Edit":
+        updateButton(btn, 'green', false, "Save");
+        input.style.visibility = 'visible';
+        break;
+      case "Save":
+        updateButton(btn, 'white', true, "Edit");
+        input.style.visibility = 'hidden';
+        setupClient(input.value.toLowerCase());
+        updateUI("", "");
+        break;
+      default:
+        break;
+    }
+
   });
 })
 
@@ -38,6 +60,12 @@ function setupClient(channelName) {
       updateUI('', '');
     }
   });
+}
+
+function updateButton(button, colour, isHidden, value){
+  button.className = isHidden ? "button-hidden" : "button";
+  button.style.backgroundColor = colour;
+  button.value = value;
 }
 
 function updateUI(username, message) {
