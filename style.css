@@ -1,8 +1,7 @@
 body {
-  border: 1px dashed white;
   -webkit-app-region: drag;
   height: 520px;
-  width: 925px;
+  width: 940px;
 }
 input {
   -webkit-app-region: no-drag;
@@ -22,6 +21,9 @@ input:focus {
   justify-content: center;
   vertical-align:center;
   width: 100%;
+}
+#canvas{
+  background-color: #00B140;
 }
 #channelName{
   align-self: center;
