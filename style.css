@@ -51,6 +51,10 @@ input:focus {
   width: 15%;
 }
 #speechBubble {
+  visibility: hidden;
+  opacity: 0;
+}
+#speechBubbleMessage {
   align-items: center; 
   display: flex;
   height: 100%;

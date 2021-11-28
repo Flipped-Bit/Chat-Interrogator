@@ -16,12 +16,13 @@
     </div>
     <svg height="495" width="940" id="canvas">
       <g>
-        <path 
+        <path id="speechBubble"
           d="M45 25 L895 25 Q915 25 915 45 L915 225 Q915 250 895 250 L475 250 L455 270 L435 250 L45 250 Q25 250 25 225 L25 45 Q25 25 45 25" 
           fill="white" stroke="black" stroke-width="3">
+          <animate attributeName="opacity" values="1;1;1;1;0;" dur="5s" />
         </path>
         <foreignObject height="215" width="890" x="25"  y="30" >
-          <div id="speechBubble">
+          <div id="speechBubbleMessage">
             <div id="lastMessage"></div>
           </div>
         </foreignObject>

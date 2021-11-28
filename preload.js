@@ -34,6 +34,10 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 })
 
+function resetAnimations(){
+  document.querySelector("animate").beginElement();
+}
+
 function setupClient(channelName) {
   if (client !== undefined) {
     client.disconnect();
@@ -62,6 +66,20 @@ function setupClient(channelName) {
   });
 }
 
+function setVisibility(id, message){
+  var speechBubble = document.getElementById(id);
+  switch (message) {
+    case "":
+      speechBubble.style.visibility = 'hidden';
+      break;
+    default:
+      if (speechBubble.style.visibility !== 'visible') {
+        speechBubble.style.visibility = 'visible';
+      }
+      break;
+  }
+}
+
 function updateButton(button, colour, isHidden, value){
   button.className = isHidden ? "button-hidden" : "button";
   button.style.backgroundColor = colour;
@@ -69,6 +87,8 @@ function updateButton(button, colour, isHidden, value){
 }
 
 function updateUI(username, message) {
-  document.getElementById("userName").placeholder = username;
+  setVisibility("speechBubble", message);
+  resetAnimations();
   document.getElementById("lastMessage").innerHTML = message;
+  document.getElementById("userName").placeholder = username;
 }
