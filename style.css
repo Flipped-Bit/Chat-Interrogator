@@ -14,6 +14,11 @@ input:focus {
 .button-hidden:hover {opacity: 1;}
 .button {opacity: 1;}
 
+.fadeOut {
+  animation: fadeOut 1s forwards;
+  animation-delay: 4s;
+}
+
 #aligner {
   align-items: center;
   display: flex;
@@ -69,4 +74,9 @@ input:focus {
   text-shadow: 0 0 0 white;
   text-align: center;
   width:70%;
+}
+
+@keyframes fadeOut {
+  from {opacity: 1;}
+  to {opacity: 0;}
 }

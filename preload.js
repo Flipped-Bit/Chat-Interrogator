@@ -35,7 +35,12 @@ window.addEventListener('DOMContentLoaded', () => {
 })
 
 function resetAnimations(){
+  var lastMessage = document.getElementById("lastMessage");
+  lastMessage.classList.remove("fadeOut");;
+  // trigger a DOM reflow 
+  void lastMessage.offsetWidth;
   document.querySelector("animate").beginElement();
+  lastMessage.classList.add("fadeOut");
 }
 
 function setupClient(channelName) {
