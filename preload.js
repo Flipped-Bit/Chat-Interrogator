@@ -1,12 +1,12 @@
 // preload.js
 
-let client;
+let chatListener;
 const { ipcRenderer } = require('electron');
-const tmi = require('tmi.js');
+const { ChatListener } = require('./services/chatListenerService');
 
 window.addEventListener('DOMContentLoaded', () => {
   var channelName = document.getElementById("channelName").value;
-  setupClient(channelName);
+  setupChatListener(channelName);
 
   document.getElementById("closeBtn").addEventListener("click", function (e) {
     ipcRenderer.send('closeApp');
@@ -24,7 +24,7 @@ window.addEventListener('DOMContentLoaded', () => {
       case "Save":
         updateButton(btn, 'white', true, "Edit");
         input.style.visibility = 'hidden';
-        setupClient(input.value.toLowerCase());
+        setupChatListener(input.value.toLowerCase());
         updateUI("", "");
         break;
       default:
@@ -43,23 +43,16 @@ function resetAnimations(){
   lastMessage.classList.add("fadeOut");
 }
 
-function setupClient(channelName) {
-  if (client !== undefined) {
-    client.disconnect();
+function setupChatListener(channelName) {
+  if (chatListener !== undefined) {
+    chatListener.disconnect();
   }
 
-  client = new tmi.Client({
-    options: { debug: true, messagesLogLevel: "info" },
-    channels: [`${channelName}`],
-    connection: {
-      reconnect: true,
-      secure: true
-    }
-  });
+  chatListener = new ChatListener(channelName);
 
-  client.connect();
+  chatListener.connect();
 
-  client.on('message', (channel, tags, message, self) => {
+  chatListener.client.on('message', (channel, tags, message, self) => {
     var username = document.getElementById("userName").value;
 
     if (tags['display-name'] == username || username == '') {
