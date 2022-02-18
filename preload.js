@@ -1,6 +1,7 @@
 // preload.js
 
 let chatListener;
+var maxLineLength = 23;
 const { ipcRenderer } = require('electron');
 const { ChatListener } = require('./services/chatListenerService');
 
@@ -84,9 +85,28 @@ function updateButton(button, colour, isHidden, value){
   button.value = value;
 }
 
+function updateLastLine(lines) {
+  var editedLine = lines[4].slice(0,-3);
+  lines[4] = editedLine.trim() + "...";
+  return lines;
+}
+
 function updateUI(username, message) {
   setVisibility("speechBubble", message);
   resetAnimations();
-  document.getElementById("lastMessage").innerHTML = message;
+  var validatedMessage = validate(message);
+  document.getElementById("lastMessage").innerHTML = validatedMessage;
   document.getElementById("userName").placeholder = username;
+}
+
+function validate(message) {
+  var lines = message.match(new RegExp(".{1," + maxLineLength +"}(\\s|$)", 'g'));
+  if (lines.length > 5) {
+    trimmedLines = lines.slice(0, 5);
+    updatedLines = updateLastLine(trimmedLines);
+    return updatedLines.join("");
+  }
+  else {
+    return message;
+  }
 }
