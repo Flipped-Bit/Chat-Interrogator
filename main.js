@@ -7,8 +7,8 @@ const path = require('path')
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 960,
-    height: 540,
+    width: 1920,
+    height: 1080,
     transparent: true,
     frame: false,
     webPreferences: {
@@ -17,7 +17,8 @@ function createWindow() {
       nativeWindowOpen: true,
       nodeIntegration: true,
       preload: path.join(__dirname, 'preload.js')
-    }
+    },
+    resizable: false
   })
 
   // and load the index.html of the app.
