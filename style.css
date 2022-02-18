@@ -71,6 +71,7 @@ input:focus {
 #lastMessage {
   align-self: center;
   text-align: center;
+  font-family: 'Courier New', Courier, monospace;
 }
 #spacer{
   width: 15%;
