@@ -3,10 +3,10 @@ body {
   background-image: url('./resources/background.png');
   margin:0px;
 }
-input {
+input, span {
   -webkit-app-region: no-drag;
 }
-input:focus {
+input:focus, span:focus {
   outline: none;
 }
 
@@ -32,17 +32,15 @@ input:focus {
   display: grid;
   grid-template:
   ". . ." 140px
-  ". . sb" 140px
+  ". n sb" 140px
   ". u sb" 205px / 180px 240px
 }
 
 #aligner {
-  align-items: center;
+  grid-area: n;
   display: flex;
-  height: 100%;
   justify-content: center;
-  vertical-align:center;
-  width: 100%;
+  align-items: center;
 }
 #canvas-speech-bubble{
   grid-area: sb;
@@ -73,9 +71,6 @@ input:focus {
   text-align: center;
   font-family: 'Courier New', Courier, monospace;
 }
-#spacer{
-  width: 15%;
-}
 #speechBubble {
   visibility: hidden;
   opacity: 0;
@@ -92,9 +87,10 @@ input:focus {
   background: transparent;
   border:white;
   color: transparent;
+  font-size: xx-large;
+  font-family: 'Courier New', Courier, monospace, ;
   text-shadow: 0 0 0 white;
   text-align: center;
-  width:70%;
 }
 
 @keyframes fadeOut {

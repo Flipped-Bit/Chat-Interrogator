@@ -100,6 +100,9 @@ function updateUI(username, message) {
 }
 
 function validate(message) {
+  if (message == "") {
+    return message;
+  }
   var lines = message.match(new RegExp(".{1," + maxLineLength +"}(\\s|$)", 'g'));
   if (lines.length > 5) {
     trimmedLines = lines.slice(0, 5);
