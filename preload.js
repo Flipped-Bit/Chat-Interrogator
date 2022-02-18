@@ -54,7 +54,7 @@ function setupChatListener(channelName) {
   chatListener.connect();
 
   chatListener.client.on('message', (channel, tags, message, self) => {
-    var username = document.getElementById("userName").value;
+    var username = document.getElementById("userName").innerText;
 
     if (tags['display-name'] == username || username == '') {
       updateUI(`${tags['display-name']}`, `${message}`);
