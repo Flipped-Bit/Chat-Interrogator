@@ -54,12 +54,12 @@ function setupChatListener(channelName) {
   chatListener.connect();
 
   chatListener.client.on('message', (channel, tags, message, self) => {
-    var username = document.getElementById("userName").value;
+    var username = document.getElementById("userName").innerText;
 
     if (tags['display-name'] == username || username == '') {
       updateUI(`${tags['display-name']}`, `${message}`);
     }
-    else if (tags['display-name'] != username && document.getElementById("userName").placeholder != username) {
+    else if (tags['display-name'] != username && document.getElementById("userName").getAttribute("data-placeholder") != username) {
       updateUI('', '');
     }
   });
@@ -96,10 +96,13 @@ function updateUI(username, message) {
   resetAnimations();
   var validatedMessage = validate(message);
   document.getElementById("lastMessage").innerHTML = validatedMessage;
-  document.getElementById("userName").placeholder = username;
+  document.getElementById("userName").setAttribute("data-placeholder", username != "" ? username : "username");
 }
 
 function validate(message) {
+  if (message == "") {
+    return message;
+  }
   var lines = message.match(new RegExp(".{1," + maxLineLength +"}(\\s|$)", 'g'));
   if (lines.length > 5) {
     trimmedLines = lines.slice(0, 5);
