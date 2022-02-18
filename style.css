@@ -22,6 +22,11 @@ input:focus, span:focus {
   ". . ." auto / 1125px 775px
 }
 
+.input[contenteditable]:empty::before {
+  content: attr(data-placeholder);
+  color: white;
+}
+
 .fadeOut {
   animation: fadeOut 1s forwards;
   animation-delay: 4s;

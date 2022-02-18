@@ -59,7 +59,7 @@ function setupChatListener(channelName) {
     if (tags['display-name'] == username || username == '') {
       updateUI(`${tags['display-name']}`, `${message}`);
     }
-    else if (tags['display-name'] != username && document.getElementById("userName").placeholder != username) {
+    else if (tags['display-name'] != username && document.getElementById("userName").getAttribute("data-placeholder") != username) {
       updateUI('', '');
     }
   });
@@ -96,7 +96,7 @@ function updateUI(username, message) {
   resetAnimations();
   var validatedMessage = validate(message);
   document.getElementById("lastMessage").innerHTML = validatedMessage;
-  document.getElementById("userName").placeholder = username;
+  document.getElementById("userName").setAttribute("data-placeholder", username != "" ? username : "username");
 }
 
 function validate(message) {
