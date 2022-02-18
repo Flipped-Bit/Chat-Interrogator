@@ -14,9 +14,26 @@ input:focus {
 .button-hidden:hover {opacity: 1;}
 .button {opacity: 1;}
 
+.container {
+  display: grid;
+  grid-template:
+  ". . ." 220px
+  ". c ." 485px
+  ". . ." auto / 1125px 775px
+}
+
 .fadeOut {
   animation: fadeOut 1s forwards;
   animation-delay: 4s;
+}
+
+.svg-container {
+  grid-area: c;
+  display: grid;
+  grid-template:
+  ". . ." 140px
+  ". . sb" 140px
+  ". u sb" 205px / 180px 240px
 }
 
 #aligner {
@@ -27,8 +44,11 @@ input:focus {
   vertical-align:center;
   width: 100%;
 }
-#canvas{
-  background-color: #00B140;
+#canvas-speech-bubble{
+  grid-area: sb;
+}
+#canvas-user{
+  grid-area: u;
 }
 #channelName{
   align-self: center;
