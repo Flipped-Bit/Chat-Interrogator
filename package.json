@@ -13,7 +13,10 @@
     "nsis": {
       "allowToChangeInstallationDirectory": true,
       "oneClick": false
-    }
+    },
+    "asarUnpack": [
+      "resources/*"
+    ]
   },
   "license": "MIT",
   "devDependencies": {
