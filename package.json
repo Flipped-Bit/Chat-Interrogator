@@ -12,10 +12,12 @@
   "build": {
     "nsis": {
       "allowToChangeInstallationDirectory": true,
-      "oneClick": false
+      "oneClick": false,
+      "include": "build/appdataInstaller.nsh"
     },
     "asarUnpack": [
-      "resources/*"
+      "resources/*",
+      "resources/avatars/*"
     ]
   },
   "license": "MIT",
