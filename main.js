@@ -80,23 +80,34 @@ function getAvailableAvatars(lastAvatar) {
 }
 
 function getRandomAvatar(avatars) {
-  var avatar = avatars[Math.floor(Math.random() * avatars.length)];
-  return avatar != undefined ? avatar : defaultAvatar;
+  return avatars[Math.floor(Math.random() * avatars.length)];
 }
 
 function getUserAvatar(username, lastAvatar) {
   let avatar;
+  // Check map for assigned avatar
   if (userAvatarMap.has(username)) {
-    avatar = `${avatarFolder}\\${userAvatarMap.get(username)}`;
+    avatar = userAvatarMap.get(username);
+    // if assign, check exists else return default
+    avatar = fs.existsSync(avatar) == false ?
+      `${avatarFolder}\\${avatar}` : defaultAvatar;
   }
+  // Else select random from folder
   else {
+    // Check folder exists, if not set default
     if (fs.existsSync(avatarFolder)) {
-      var newAvatar = getRandomAvatar(getAvailableAvatars(lastAvatar));
-      userAvatarMap.set(username, newAvatar);
-      avatar = `${avatarFolder}\\${newAvatar}`;
+      var availableAvatars = getAvailableAvatars(lastAvatar);
+      if (availableAvatars.length > 0) {
+        avatar = getRandomAvatar(availableAvatars);
+        userAvatarMap.set(username, avatar);
+        avatar = `${avatarFolder}\\${avatar}`
+      }
+      else {
+        avatar = defaultAvatar;
+      }
     }
     else {
-      avatar = '.\\resources\\avatars\\defaultUser.png'
+      avatar = defaultAvatar;
     }
   }
 
