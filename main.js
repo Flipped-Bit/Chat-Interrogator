@@ -1,8 +1,12 @@
 // main.js
 
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, ipcMain } = require('electron')
-const path = require('path')
+const { app, BrowserWindow, ipcMain } = require('electron');
+const defaultAvatar = 'defaultUser.png';
+const fs = require('fs');
+const path = require('path');
+const userAvatarMap = new Map();
+let avatarFolder;
 let mainWindow;
 
 function createWindow() {
@@ -30,7 +34,8 @@ function createWindow() {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-  createWindow()
+  createWindow();
+  getAvatarFolder();
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
@@ -49,3 +54,51 @@ app.on('window-all-closed', function () {
 ipcMain.on('closeApp', (evt, arg) => {
   app.quit();
 });
+
+ipcMain.on('updateAvatar', (evt, arg) => {
+  var username = arg.user;
+  var lastAvatar = arg.previous.replace(avatarFolder, "");;
+
+  var newAvatar = getUserAvatar(username, lastAvatar);
+
+  mainWindow.webContents.send('newAvatarFound', { src: newAvatar });
+});
+
+function getAvatarFolder() {
+  avatarFolder = `${process.env.APPDATA}\\Chat Interrogator\\avatars`;
+}
+
+function getAvailableAvatars(lastAvatar) {
+  var avatars = fs.readdirSync(avatarFolder)
+    .filter(a => a.endsWith('.png'));
+
+  if (lastAvatar != null) {
+    avatars = avatars.filter(a => a !== lastAvatar)
+  }
+
+  return avatars;
+}
+
+function getRandomAvatar(avatars) {
+  var avatar = avatars[Math.floor(Math.random() * avatars.length)];
+  return avatar != undefined ? avatar : defaultAvatar;
+}
+
+function getUserAvatar(username, lastAvatar) {
+  let avatar;
+  if (userAvatarMap.has(username)) {
+    avatar = `${avatarFolder}\\${userAvatarMap.get(username)}`;
+  }
+  else {
+    if (fs.existsSync(avatarFolder)) {
+      var newAvatar = getRandomAvatar(getAvailableAvatars(lastAvatar));
+      userAvatarMap.set(username, newAvatar);
+      avatar = `${avatarFolder}\\${newAvatar}`;
+    }
+    else {
+      avatar = '.\\resources\\avatars\\defaultUser.png'
+    }
+  }
+
+  return avatar;
+}

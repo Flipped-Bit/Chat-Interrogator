@@ -33,6 +33,12 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
   });
+
+  ipcRenderer.on('newAvatarFound', (_, arg) => {
+    var avatar = document.getElementById("avatar");
+    console.log(arg.src);
+    avatar.href.baseVal = arg.src;
+  })
 })
 
 function resetAnimations(){
@@ -60,14 +66,23 @@ function setupChatListener(channelName) {
 
     if (username == '') { 
       updateUI(`${newMessageSender}`, `${message}`);
+      setAvatar(newMessageSender);
     }
     else if (newMessageSender == username) {
       updateUI(`${newMessageSender}`, `${message}`);
+      if (lastMessageSender != newMessageSender) {
+        setAvatar(newMessageSender); 
+      }
     }
     else if (newMessageSender != username && document.getElementById("userName").getAttribute("data-placeholder") != username) {
       updateUI('', '');
     }
   });
+}
+
+function setAvatar(username) {
+  var avatar = document.getElementById("avatar").href.baseVal;
+  ipcRenderer.send('updateAvatar', { previous: avatar, user: username });
 }
 
 function setVisibility(id, message){
