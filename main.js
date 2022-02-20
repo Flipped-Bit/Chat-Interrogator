@@ -2,7 +2,7 @@
 
 // Modules to control application life and create native browser window
 const { app, BrowserWindow, ipcMain } = require('electron');
-const defaultAvatar = 'defaultUser.png';
+const defaultAvatar = '.\\resources\\avatars\\defaultUser.png';
 const fs = require('fs');
 const path = require('path');
 const userAvatarMap = new Map();
