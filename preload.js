@@ -54,12 +54,17 @@ function setupChatListener(channelName) {
   chatListener.connect();
 
   chatListener.client.on('message', (channel, tags, message, self) => {
+    var lastMessageSender = document.getElementById("userName").getAttribute("data-placeholder")
+    var newMessageSender = tags['display-name'];
     var username = document.getElementById("userName").innerText;
 
-    if (tags['display-name'] == username || username == '') {
-      updateUI(`${tags['display-name']}`, `${message}`);
+    if (username == '') { 
+      updateUI(`${newMessageSender}`, `${message}`);
     }
-    else if (tags['display-name'] != username && document.getElementById("userName").getAttribute("data-placeholder") != username) {
+    else if (newMessageSender == username) {
+      updateUI(`${newMessageSender}`, `${message}`);
+    }
+    else if (newMessageSender != username && document.getElementById("userName").getAttribute("data-placeholder") != username) {
       updateUI('', '');
     }
   });
