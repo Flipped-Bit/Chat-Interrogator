@@ -33,6 +33,12 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
   });
+
+  ipcRenderer.on('newAvatarFound', (_, arg) => {
+    var avatar = document.getElementById("avatar");
+    console.log(arg.src);
+    avatar.href.baseVal = arg.src;
+  })
 })
 
 function resetAnimations(){
@@ -54,15 +60,29 @@ function setupChatListener(channelName) {
   chatListener.connect();
 
   chatListener.client.on('message', (channel, tags, message, self) => {
+    var lastMessageSender = document.getElementById("userName").getAttribute("data-placeholder")
+    var newMessageSender = tags['display-name'];
     var username = document.getElementById("userName").innerText;
 
-    if (tags['display-name'] == username || username == '') {
-      updateUI(`${tags['display-name']}`, `${message}`);
+    if (username == '') { 
+      updateUI(`${newMessageSender}`, `${message}`);
+      setAvatar(newMessageSender);
     }
-    else if (tags['display-name'] != username && document.getElementById("userName").getAttribute("data-placeholder") != username) {
+    else if (newMessageSender == username) {
+      updateUI(`${newMessageSender}`, `${message}`);
+      if (lastMessageSender != newMessageSender) {
+        setAvatar(newMessageSender); 
+      }
+    }
+    else if (newMessageSender != username && document.getElementById("userName").getAttribute("data-placeholder") != username) {
       updateUI('', '');
     }
   });
+}
+
+function setAvatar(username) {
+  var avatar = document.getElementById("avatar").href.baseVal;
+  ipcRenderer.send('updateAvatar', { previous: avatar, user: username });
 }
 
 function setVisibility(id, message){
