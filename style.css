@@ -3,10 +3,10 @@ body {
   background-color: #00B140;
   margin:0px;
 }
-input, span {
+input {
   -webkit-app-region: no-drag;
 }
-input:focus, span:focus {
+input:focus {
   outline: none;
 }
 
@@ -19,6 +19,7 @@ input:focus, span:focus {
   grid-template:
   ". . ." 220px
   ". c ." 485px
+  ". s ." 100px
   ". . ." auto / 1125px 775px
 }
 
@@ -76,6 +77,17 @@ input:focus, span:focus {
   text-align: center;
   font-family: 'Comic Sans';
 }
+
+#setUser {
+  grid-area: b;
+}
+
+#selectedUser {
+  grid-area: i;
+  text-align: center;
+  visibility: hidden;
+}
+
 #speechBubble {
   visibility: hidden;
   opacity: 0;
@@ -96,6 +108,16 @@ input:focus, span:focus {
   font-family: 'Impact', Impact;
   text-shadow: 0 0 0 white;
   text-align: center;
+}
+
+#userSelector {
+  grid-area: s;
+  display: grid;
+  grid-template:
+  ". . . . ." 25px
+  ". . b . ." 35px
+  ". . . . ." 5px
+  ". i i i ."/ 140px 110px 100px 110px
 }
 
 @font-face {
