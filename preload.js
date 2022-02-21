@@ -31,7 +31,26 @@ window.addEventListener('DOMContentLoaded', () => {
       default:
         break;
     }
+  });
 
+  document.getElementById("setUser").addEventListener("click", function (e) {
+    var btn = document.getElementById("setUser");
+    var input = document.getElementById("selectedUser");
+    var username = document.getElementById("userName");
+
+    switch (btn.value) {
+      case "Set User":
+        updateButton(btn, 'green', false, "Save");
+        input.style.visibility = 'visible';
+        break;
+      case "Save":
+        updateButton(btn, 'white', true, "Set User");
+        input.style.visibility = 'hidden';
+        username.innerText = input.value;
+        break;
+      default:
+        break;
+    }
   });
 
   ipcRenderer.on('newAvatarFound', (_, arg) => {
@@ -115,7 +134,7 @@ function updateUI(username, message) {
   resetAnimations();
   var validatedMessage = validate(message);
   document.getElementById("lastMessage").innerHTML = validatedMessage;
-  document.getElementById("userName").setAttribute("data-placeholder", username != "" ? username : "username");
+  document.getElementById("userName").setAttribute("data-placeholder", username);
 }
 
 function validate(message) {
