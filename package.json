@@ -16,7 +16,6 @@
       "include": "build/appdataInstaller.nsh"
     },
     "asarUnpack": [
-      "resources/*",
       "resources/avatars/*"
     ]
   },

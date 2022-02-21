@@ -1,6 +1,6 @@
 body {
   -webkit-app-region: drag;
-  background-image: url('./resources/background.png');
+  background-color: #00B140;
   margin:0px;
 }
 input, span {
