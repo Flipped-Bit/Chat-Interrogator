@@ -1,7 +1,7 @@
 // preload.js
 
 let chatListener;
-var maxLineLength = 23;
+var maxLineLength = 26;
 const { ipcRenderer } = require('electron');
 const { ChatListener } = require('./services/chatListenerService');
 
@@ -36,7 +36,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
   ipcRenderer.on('newAvatarFound', (_, arg) => {
     var avatar = document.getElementById("avatar");
-    console.log(arg.src);
     avatar.href.baseVal = arg.src;
   })
 })

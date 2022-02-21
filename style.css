@@ -74,7 +74,7 @@ input:focus, span:focus {
 #lastMessage {
   align-self: center;
   text-align: center;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'Comic Sans';
 }
 #speechBubble {
   visibility: hidden;
@@ -93,9 +93,14 @@ input:focus, span:focus {
   border:white;
   color: transparent;
   font-size: xx-large;
-  font-family: 'Courier New', Courier, monospace, ;
+  font-family: 'Impact', Impact;
   text-shadow: 0 0 0 white;
   text-align: center;
+}
+
+@font-face {
+  font-family: 'Comic Sans';
+  src: url('./resources/fonts/ComicMono-Bold.ttf');
 }
 
 @keyframes fadeOut {
