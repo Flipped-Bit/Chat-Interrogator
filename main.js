@@ -58,7 +58,6 @@ ipcMain.on('closeApp', (evt, arg) => {
 ipcMain.on('updateAvatar', (evt, arg) => {
   var username = arg.user;
   var lastAvatar = arg.previous.replace(avatarFolder, "");;
-
   var newAvatar = getUserAvatar(username, lastAvatar);
 
   mainWindow.webContents.send('newAvatarFound', { src: newAvatar });
@@ -85,16 +84,13 @@ function getRandomAvatar(avatars) {
 
 function getUserAvatar(username, lastAvatar) {
   let avatar;
-  // Check map for assigned avatar
+
   if (userAvatarMap.has(username)) {
     avatar = userAvatarMap.get(username);
-    // if assign, check exists else return default
     avatar = fs.existsSync(avatar) == false ?
       `${avatarFolder}\\${avatar}` : defaultAvatar;
   }
-  // Else select random from folder
   else {
-    // Check folder exists, if not set default
     if (fs.existsSync(avatarFolder)) {
       var availableAvatars = getAvailableAvatars(lastAvatar);
       if (availableAvatars.length > 0) {

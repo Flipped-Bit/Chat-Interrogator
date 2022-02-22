@@ -13,12 +13,12 @@ class ChatListener {
 
     async connect() {
         this.client.connect()
-        .catch(console.error);
+            .catch(console.error);
     }
 
     async disconnect() {
         this.client.disconnect()
-        .catch(console.error);
+            .catch(console.error);
     }
 }
 

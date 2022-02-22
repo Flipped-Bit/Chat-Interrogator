@@ -3,9 +3,11 @@ body {
   background-color: #00B140;
   margin:0px;
 }
+
 input {
   -webkit-app-region: no-drag;
 }
+
 input:focus {
   outline: none;
 }
@@ -48,30 +50,36 @@ input:focus {
   justify-content: center;
   align-items: center;
 }
-#canvas-speech-bubble{
+
+#canvas-speech-bubble {
   grid-area: sb;
 }
-#canvas-user{
+
+#canvas-user {
   grid-area: u;
 }
-#channelName{
+
+#channelName {
   align-self: center;
   border:white;
   text-align: center;
   visibility: hidden;
   width:90%;
 }
-#closeBtn{
+
+#closeBtn {
   background-color: red; 
   float: right; 
   height: 25px; 
   width: 25px;
 }
-#editChannel{
+
+#editChannel {
   background-color: white;
   height: 25px;
   width: 50px;
 }
+
 #lastMessage {
   align-self: center;
   text-align: center;
@@ -92,6 +100,7 @@ input:focus {
   visibility: hidden;
   opacity: 0;
 }
+
 #speechBubbleMessage {
   align-items: center; 
   display: flex;
@@ -99,6 +108,7 @@ input:focus {
   justify-content: center; 
   width: 100%; 
 }
+
 #userName {
   align-self: center;
   background: transparent;
