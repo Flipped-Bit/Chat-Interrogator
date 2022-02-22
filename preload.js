@@ -59,7 +59,7 @@ window.addEventListener('DOMContentLoaded', () => {
   })
 })
 
-function resetAnimations(){
+function resetAnimations() {
   var lastMessage = document.getElementById("lastMessage");
   lastMessage.classList.remove("fadeOut");;
   // trigger a DOM reflow 
@@ -82,14 +82,14 @@ function setupChatListener(channelName) {
     var newMessageSender = tags['display-name'];
     var username = document.getElementById("userName").innerText;
 
-    if (username == '') { 
+    if (username == '') {
       updateUI(`${newMessageSender}`, `${message}`);
       setAvatar(newMessageSender);
     }
     else if (newMessageSender == username) {
       updateUI(`${newMessageSender}`, `${message}`);
       if (lastMessageSender != newMessageSender) {
-        setAvatar(newMessageSender); 
+        setAvatar(newMessageSender);
       }
     }
     else if (newMessageSender != username && document.getElementById("userName").getAttribute("data-placeholder") != username) {
@@ -103,7 +103,7 @@ function setAvatar(username) {
   ipcRenderer.send('updateAvatar', { previous: avatar, user: username });
 }
 
-function setVisibility(id, message){
+function setVisibility(id, message) {
   var speechBubble = document.getElementById(id);
   switch (message) {
     case "":
@@ -117,14 +117,14 @@ function setVisibility(id, message){
   }
 }
 
-function updateButton(button, colour, isHidden, value){
+function updateButton(button, colour, isHidden, value) {
   button.className = isHidden ? "button-hidden" : "button";
   button.style.backgroundColor = colour;
   button.value = value;
 }
 
 function updateLastLine(lines) {
-  var editedLine = lines[4].slice(0,-3);
+  var editedLine = lines[4].slice(0, -3);
   lines[4] = editedLine.trim() + "...";
   return lines;
 }
@@ -141,7 +141,7 @@ function validate(message) {
   if (message == "") {
     return message;
   }
-  var lines = message.match(new RegExp(".{1," + maxLineLength +"}(\\s|$)", 'g'));
+  var lines = message.match(new RegExp(".{1," + maxLineLength + "}(\\s|$)", 'g'));
   if (lines.length > 5) {
     trimmedLines = lines.slice(0, 5);
     updatedLines = updateLastLine(trimmedLines);
