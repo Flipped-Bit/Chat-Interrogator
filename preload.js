@@ -108,21 +108,21 @@ function setupChatListener(channelName) {
 
   chatListener.client.on('message', (channel, tags, message, self) => {
     var lastMessageSender = document.getElementById("userName").getAttribute("data-placeholder")
-    var newMessageSender = tags['display-name'];
+    var newMessageSender = { base: tags['username'] , display: tags['display-name']};
     var username = document.getElementById("userName").innerText;
 
     if (username == '') {
-      updateUI(`${newMessageSender}`, `${message}`);
-      setAvatar(newMessageSender);
+      updateUI(`${newMessageSender.display}`, `${message}`);
+      setAvatar(newMessageSender.base);
     }
-    else if (newMessageSender == username) {
-      updateUI(`${newMessageSender}`, `${message}`);
-      if (lastMessageSender != newMessageSender) {
-        setAvatar(newMessageSender);
+    else if (newMessageSender.base == username.toLowerCase()) {
+      updateUI(`${newMessageSender.display}`, `${message}`);
+      if (lastMessageSender != newMessageSender.display) {
+        setAvatar(newMessageSender.base);
       }
       ipcRenderer.send('getTTS', { message: message });
     }
-    else if (newMessageSender != username && document.getElementById("userName").getAttribute("data-placeholder") != username) {
+    else if (newMessageSender.base != username.toLowerCase() && document.getElementById("userName").getAttribute("data-placeholder") != username) {
       updateUI('', '');
     }
   });
