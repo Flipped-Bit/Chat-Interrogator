@@ -70,6 +70,13 @@ ipcMain.on('getPrevAvatar', (evt, arg) => {
   mainWindow.webContents.send('newAvatarFound', { src: newAvatar, IsSettingAvatar: true });
 });
 
+ipcMain.on('getTTS', async (evt, arg) => {
+  var result = await getAudioForText(arg.message);
+  console.log(result);
+  var parsedResult = JSON.parse(result);
+  mainWindow.webContents.send('audioUpdated', { url: parsedResult.speak_url })
+});
+
 ipcMain.on('minimiseApp', (evt, arg) => {
   mainWindow.minimize();
 });
@@ -83,3 +90,41 @@ ipcMain.on('updateAvatar', (evt, arg) => {
   var newAvatar = avatarManager.getForUser(arg.user);
   mainWindow.webContents.send('newAvatarFound', { src: newAvatar, IsSettingAvatar: false });
 });
+
+function getAudioForText(text, voice = 'Brian') {
+  const data = JSON.stringify({
+    voice: voice,
+    text: text
+  });
+
+  const options = {
+    hostname: 'streamlabs.com',
+    path: '/polly/speak',
+    port: 443,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Content-Length': data.length
+    }
+  };
+
+  return new Promise(function (resolve, reject) {
+    const req = https.request(options, (res) => {
+      let data = '';
+
+      res.on('data', (chunk) => {
+        data += chunk;
+      });
+
+      res.on('end', () => {
+        resolve(data);
+      });
+
+    }).on("error", (err) => {
+      reject(err.message);
+    });
+
+    req.write(data);
+    req.end();
+  });
+}
