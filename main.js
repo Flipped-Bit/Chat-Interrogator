@@ -2,12 +2,15 @@
 
 // Modules to control application life and create native browser window
 const { app, BrowserWindow, ipcMain } = require('electron');
-const defaultAvatar = '.\\resources\\avatars\\defaultUser.png';
-const fs = require('fs');
+const { AvatarManager } = require('./services/avatarManagerService');
+const https = require('https');
 const path = require('path');
-const userAvatarMap = new Map();
-let avatarFolder;
+let avatarManager;
 let mainWindow;
+
+function createAvatarManager() {
+  avatarManager = new AvatarManager();
+}
 
 function createWindow() {
   // Create the browser window.
@@ -35,7 +38,7 @@ function createWindow() {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   createWindow();
-  getAvatarFolder();
+  createAvatarManager();
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
@@ -55,61 +58,28 @@ ipcMain.on('closeApp', (evt, arg) => {
   app.quit();
 });
 
+ipcMain.on('getNextAvatar', (evt, arg) => {
+  avatarManager.setCurrent(arg.current);
+  var newAvatar = avatarManager.next();
+  mainWindow.webContents.send('newAvatarFound', { src: newAvatar, IsSettingAvatar: true });
+});
+
+ipcMain.on('getPrevAvatar', (evt, arg) => {
+  avatarManager.setCurrent(arg.current);
+  var newAvatar = avatarManager.prev();
+  mainWindow.webContents.send('newAvatarFound', { src: newAvatar, IsSettingAvatar: true });
+});
+
 ipcMain.on('minimiseApp', (evt, arg) => {
   mainWindow.minimize();
 });
 
-ipcMain.on('updateAvatar', (evt, arg) => {
-  var username = arg.user;
-  var lastAvatar = arg.previous.replace(avatarFolder, "");;
-  var newAvatar = getUserAvatar(username, lastAvatar);
-
-  mainWindow.webContents.send('newAvatarFound', { src: newAvatar });
+ipcMain.on('setAvatar', (evt, arg) => {
+  avatarManager.setForUser(arg.user, arg.current);
 });
 
-function getAvatarFolder() {
-  avatarFolder = `${process.env.APPDATA}\\Chat Interrogator\\avatars`;
-}
-
-function getAvailableAvatars(lastAvatar) {
-  var avatars = fs.readdirSync(avatarFolder)
-    .filter(a => a.endsWith('.png'));
-
-  if (lastAvatar != null) {
-    avatars = avatars.filter(a => a !== lastAvatar)
-  }
-
-  return avatars;
-}
-
-function getRandomAvatar(avatars) {
-  return avatars[Math.floor(Math.random() * avatars.length)];
-}
-
-function getUserAvatar(username, lastAvatar) {
-  let avatar;
-
-  if (userAvatarMap.has(username)) {
-    avatar = userAvatarMap.get(username);
-    avatar = fs.existsSync(avatar) == false ?
-      `${avatarFolder}\\${avatar}` : defaultAvatar;
-  }
-  else {
-    if (fs.existsSync(avatarFolder)) {
-      var availableAvatars = getAvailableAvatars(lastAvatar);
-      if (availableAvatars.length > 0) {
-        avatar = getRandomAvatar(availableAvatars);
-        userAvatarMap.set(username, avatar);
-        avatar = `${avatarFolder}\\${avatar}`
-      }
-      else {
-        avatar = defaultAvatar;
-      }
-    }
-    else {
-      avatar = defaultAvatar;
-    }
-  }
-
-  return avatar;
-}
+ipcMain.on('updateAvatar', (evt, arg) => {
+  avatarManager.setCurrent(arg.current);
+  var newAvatar = avatarManager.getForUser(arg.user);
+  mainWindow.webContents.send('newAvatarFound', { src: newAvatar, IsSettingAvatar: false });
+});

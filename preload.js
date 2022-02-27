@@ -37,19 +37,37 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  document.getElementById("nextAvatar").addEventListener("click", function (e) {
+    var avatar = document.getElementById("avatar").href.baseVal;
+    ipcRenderer.send('getNextAvatar', { current: avatar });
+  })
+
+  document.getElementById("prevAvatar").addEventListener("click", function (e) {
+    var avatar = document.getElementById("avatar").href.baseVal;
+    ipcRenderer.send('getPrevAvatar', { current: avatar });
+  })
+
   document.getElementById("setUser").addEventListener("click", function (e) {
+    var avatar = document.getElementById("avatar").href.baseVal;
     var btn = document.getElementById("setUser");
     var input = document.getElementById("selectedUser");
+    var next = document.getElementById("nextAvatar");
+    var prev = document.getElementById("prevAvatar");
     var username = document.getElementById("userName");
 
     switch (btn.value) {
       case "Set User":
         updateButton(btn, 'green', false, "Save");
         input.style.visibility = 'visible';
+        next.style.visibility = 'visible';
+        prev.style.visibility = 'visible';
         break;
       case "Save":
+        ipcRenderer.send('setAvatar', { current: avatar, user:input.value.toLowerCase() });
         updateButton(btn, 'white', true, "Set User");
         input.style.visibility = 'hidden';
+        next.style.visibility = 'hidden';
+        prev.style.visibility = 'hidden';
         username.innerText = input.value;
         break;
       default:
@@ -58,8 +76,11 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
   ipcRenderer.on('newAvatarFound', (_, arg) => {
-    var avatar = document.getElementById("avatar");
-    avatar.href.baseVal = arg.src;
+    var input = document.getElementById("selectedUser");
+    if (input.style.visibility != 'visible' || arg.IsSettingAvatar) {
+      var avatar = document.getElementById("avatar");
+      avatar.href.baseVal = arg.src;
+    }
   })
 })
 
@@ -104,18 +125,18 @@ function setupChatListener(channelName) {
 
 function setAvatar(username) {
   var avatar = document.getElementById("avatar").href.baseVal;
-  ipcRenderer.send('updateAvatar', { previous: avatar, user: username });
+  ipcRenderer.send('updateAvatar', { current: avatar, user: username });
 }
 
 function setVisibility(id, message) {
-  var speechBubble = document.getElementById(id);
+  var item = document.getElementById(id);
   switch (message) {
     case "":
-      speechBubble.style.visibility = 'hidden';
+      item.style.visibility = 'hidden';
       break;
     default:
-      if (speechBubble.style.visibility !== 'visible') {
-        speechBubble.style.visibility = 'visible';
+      if (item.style.visibility !== 'visible') {
+        item.style.visibility = 'visible';
       }
       break;
   }

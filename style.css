@@ -88,6 +88,16 @@ input:focus {
   background-color: white; 
 }
 
+#nextAvatar {
+  grid-area: na;
+  visibility: hidden;
+}
+
+#prevAvatar {
+  grid-area: pa;
+  visibility: hidden;
+}
+
 #setUser {
   grid-area: b;
 }
@@ -133,7 +143,7 @@ input:focus {
   display: grid;
   grid-template:
   ". . . . ." 25px
-  ". . b . ." 35px
+  ". pa b na ." 35px
   ". . . . ." 5px
   ". i i i ."/ 140px 110px 100px 110px
 }
