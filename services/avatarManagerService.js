@@ -74,9 +74,7 @@ class AvatarManager {
     }
 
     setForUser(username, avatar) {
-        if (!this.userAvatarMap.has(username)) {
-            this.userAvatarMap.set(username, avatar);
-        }
+        this.userAvatarMap.set(username, avatar);
     }
 }
 
