@@ -75,6 +75,10 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  ipcRenderer.on('audioUpdated', (_, arg) => {
+    updateAudio(arg.url);
+  })
+
   ipcRenderer.on('newAvatarFound', (_, arg) => {
     var input = document.getElementById("selectedUser");
     if (input.style.visibility != 'visible' || arg.IsSettingAvatar) {
@@ -116,6 +120,7 @@ function setupChatListener(channelName) {
       if (lastMessageSender != newMessageSender) {
         setAvatar(newMessageSender);
       }
+      ipcRenderer.send('getTTS', { message: message });
     }
     else if (newMessageSender != username && document.getElementById("userName").getAttribute("data-placeholder") != username) {
       updateUI('', '');
@@ -140,6 +145,15 @@ function setVisibility(id, message) {
       }
       break;
   }
+}
+
+function updateAudio(audioUrl) {
+  var audioPlayer = document.getElementById('audioPlayer');
+  var source = document.getElementById('audioSource');
+  console.log(audioUrl);
+  source.src = audioUrl;
+  audioPlayer.load();
+  audioPlayer.play();
 }
 
 function updateButton(button, colour, isHidden, value) {
