@@ -13,6 +13,10 @@ window.addEventListener('DOMContentLoaded', () => {
     ipcRenderer.send('closeApp');
   });
 
+  document.getElementById("minimiseBtn").addEventListener("click", function (e) {
+    ipcRenderer.send('minimiseApp');
+  });
+
   document.getElementById("editChannel").addEventListener("click", function (e) {
     var btn = document.getElementById("editChannel");
     var input = document.getElementById("channelName");
