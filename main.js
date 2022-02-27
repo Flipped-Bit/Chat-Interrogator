@@ -55,6 +55,10 @@ ipcMain.on('closeApp', (evt, arg) => {
   app.quit();
 });
 
+ipcMain.on('minimiseApp', (evt, arg) => {
+  mainWindow.minimize();
+});
+
 ipcMain.on('updateAvatar', (evt, arg) => {
   var username = arg.user;
   var lastAvatar = arg.previous.replace(avatarFolder, "");;
