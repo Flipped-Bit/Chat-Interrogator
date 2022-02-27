@@ -13,6 +13,14 @@ class AvatarManager {
         this.userAvatarMap = new Map();
     }
 
+    get(index) {
+        return this.avatars[index];
+    }
+
+    getAll() {
+        return this.avatars;
+    }
+
     getAllExceptCurrent() {
         var avatar = getFileNameFromPath(this.current);
         return this.avatars.filter(a => a !== avatar)
@@ -35,6 +43,30 @@ class AvatarManager {
             path.join(this.avatarFolder, avatars[Math.floor(Math.random() * avatars.length)]) :
             path.join(defaultAvatarFolder, defaultAvatar);
         return avatar;
+    }
+
+    next() {
+        if (this.current == path.join(defaultAvatarFolder, defaultAvatar)) {
+            return this.get(0);
+        }
+        var avatar = getFileNameFromPath(this.current);
+        var avatars = this.getAll();
+        var currentAvatarIndex = avatars.indexOf(avatar);
+        var newAvatar = currentAvatarIndex < avatars.length - 1 ?
+            avatars[currentAvatarIndex + 1] : avatars[0];
+        return path.join(this.avatarFolder, newAvatar);
+    }
+
+    prev() {
+        if (this.current == path.join(defaultAvatarFolder, defaultAvatar)) {
+            return this.avatars[this.avatars.length - 1];
+        }
+        var avatar = getFileNameFromPath(this.current);
+        var avatars = this.getAll();
+        var currentAvatarIndex = avatars.indexOf(avatar);
+        var newAvatar = currentAvatarIndex > 0 ?
+            avatars[currentAvatarIndex - 1] : avatars[avatars.length - 1];
+        return path.join(this.avatarFolder, newAvatar);
     }
 
     setCurrent(current) {

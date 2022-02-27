@@ -58,8 +58,24 @@ ipcMain.on('closeApp', (evt, arg) => {
   app.quit();
 });
 
+ipcMain.on('getNextAvatar', (evt, arg) => {
+  avatarManager.setCurrent(arg.current);
+  var newAvatar = avatarManager.next();
+  mainWindow.webContents.send('newAvatarFound', { src: newAvatar, IsSettingAvatar: true });
+});
+
+ipcMain.on('getPrevAvatar', (evt, arg) => {
+  avatarManager.setCurrent(arg.current);
+  var newAvatar = avatarManager.prev();
+  mainWindow.webContents.send('newAvatarFound', { src: newAvatar, IsSettingAvatar: true });
+});
+
 ipcMain.on('minimiseApp', (evt, arg) => {
   mainWindow.minimize();
+});
+
+ipcMain.on('setAvatar', (evt, arg) => {
+  avatarManager.setForUser(arg.user, arg.current);
 });
 
 ipcMain.on('updateAvatar', (evt, arg) => {
