@@ -15,8 +15,8 @@ function createAvatarManager() {
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 1920,
-    height: 1080,
+    width: 960,
+    height: 540,
     transparent: true,
     frame: false,
     webPreferences: {
