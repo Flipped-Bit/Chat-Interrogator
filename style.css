@@ -8,9 +8,7 @@ input {
   -webkit-app-region: no-drag;
 }
 
-input:focus {
-  outline: none;
-}
+input:focus {outline: none;}
 
 .button-hidden {opacity: 0;}
 .button-hidden:hover {opacity: 1;}
@@ -19,10 +17,9 @@ input:focus {
 .container {
   display: grid;
   grid-template:
-  ". . ." 220px
-  ". c ." 485px
-  ". s ." 100px
-  ". . ." auto / 1125px 775px
+  ". . ." 90px
+  ". c ." 345px
+  ". s ." 40px / 165px 775px 20px
 }
 
 .input[contenteditable]:empty::before {
@@ -39,7 +36,6 @@ input:focus {
   grid-area: c;
   display: grid;
   grid-template:
-  ". . ." 140px
   ". n sb" 140px
   ". u sb" 205px / 180px 240px
 }
@@ -51,13 +47,9 @@ input:focus {
   align-items: center;
 }
 
-#canvas-speech-bubble {
-  grid-area: sb;
-}
+#canvas-speech-bubble {grid-area: sb;}
 
-#canvas-user {
-  grid-area: u;
-}
+#canvas-user {grid-area: u;}
 
 #channelName {
   grid-area: cn;
@@ -98,9 +90,7 @@ input:focus {
   visibility: hidden;
 }
 
-#setUser {
-  grid-area: b;
-}
+#setUser {grid-area: b;}
 
 #selectedUser {
   grid-area: i;
@@ -124,7 +114,7 @@ input:focus {
 #topBar {
   display: grid;
   grid-template:
-  "e cn . m c" 25px / 50px 1600px auto 25px 25px
+  "e cn . m c" 25px / 50px 800px auto 25px 25px
 }
 
 #userName {
@@ -142,10 +132,9 @@ input:focus {
   grid-area: s;
   display: grid;
   grid-template:
-  ". . . . ." 25px
-  ". pa b na ." 35px
-  ". . . . ." 5px
-  ". i i i ."/ 140px 110px 100px 110px
+  ". i i i ." 16px
+  ". . . . ." 4px
+  ". pa b na ." 20px / 195px 55px 100px 55px
 }
 
 @font-face {
