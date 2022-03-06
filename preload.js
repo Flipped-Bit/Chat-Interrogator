@@ -173,7 +173,6 @@ function setVisibility(id, message) {
 function updateAudio(audioUrl) {
   var audioPlayer = document.getElementById('audioPlayer');
   var source = document.getElementById('audioSource');
-  console.log(audioUrl);
   source.src = audioUrl;
   audioPlayer.load();
   audioPlayer.play();

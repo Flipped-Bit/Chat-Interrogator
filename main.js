@@ -72,7 +72,6 @@ ipcMain.on('getPrevAvatar', (evt, arg) => {
 
 ipcMain.on('getTTS', async (evt, arg) => {
   var result = await getAudioForText(arg.message);
-  console.log(result);
   var parsedResult = JSON.parse(result);
   mainWindow.webContents.send('audioUpdated', { url: parsedResult.speak_url })
 });
