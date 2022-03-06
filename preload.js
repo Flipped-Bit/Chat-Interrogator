@@ -37,6 +37,24 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  document.getElementById("hideAvatar").addEventListener("click", function (e) {
+    var avatar = document.getElementById("avatar");
+    var btn = document.getElementById("hideAvatar");
+
+    switch (btn.value) {
+      case "Hide Avatar":
+        updateButton(btn, 'white', true, "Show Avatar");
+        avatar.style.visibility = 'hidden';
+        break;
+      case "Show Avatar":
+        updateButton(btn, 'white', true, "Hide Avatar");
+        avatar.style.visibility = 'visible';
+        break;
+      default:
+        break;
+    }
+  });
+
   document.getElementById("nextAvatar").addEventListener("click", function (e) {
     var avatar = document.getElementById("avatar").href.baseVal;
     ipcRenderer.send('getNextAvatar', { current: avatar });
