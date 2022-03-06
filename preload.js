@@ -107,12 +107,15 @@ window.addEventListener('DOMContentLoaded', () => {
 })
 
 function resetAnimations() {
+  var speechBubble = document.getElementById("speechBubble");
   var lastMessage = document.getElementById("lastMessage");
-  lastMessage.classList.remove("fadeOut");;
+  lastMessage.classList.remove("fadeOut");
+  speechBubble.classList.remove("fadeOut");
   // trigger a DOM reflow 
   void lastMessage.offsetWidth;
-  document.querySelector("animate").beginElement();
+  void speechBubble.offsetWidth;
   lastMessage.classList.add("fadeOut");
+  speechBubble.classList.add("fadeOut");
 }
 
 function setupChatListener(channelName) {
@@ -144,6 +147,8 @@ function setupChatListener(channelName) {
       updateUI('', '');
     }
   });
+
+  updateUI('', '');
 }
 
 function setAvatar(username) {

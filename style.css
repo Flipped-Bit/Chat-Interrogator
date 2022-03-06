@@ -104,11 +104,6 @@ input:focus {outline: none;}
   visibility: hidden;
 }
 
-#speechBubble {
-  visibility: hidden;
-  opacity: 0;
-}
-
 #speechBubbleMessage {
   align-items: center; 
   display: flex;
