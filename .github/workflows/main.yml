@@ -6,7 +6,10 @@ on:
   push:
     tags:
       - "v*"
-      
+
+env:
+  VERSION: v1
+
 jobs:
   test:
     name: Test
@@ -23,9 +26,11 @@ jobs:
 
       - name: Install test app dependencies
         run: npm install
+        working-directory: ./${{ env.VERSION }}
         
       - name: Build app
         run: npm run dist
+        working-directory: ./${{ env.VERSION }}
 
       - uses: actions/create-release@v1
         id: create_release
@@ -38,5 +43,5 @@ jobs:
       - uses: csexton/release-asset-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          pattern: dist/*.exe
+          pattern: ${{ env.VERSION }}/dist/*.exe
           release-url: ${{ steps.create_release.outputs.upload_url }}
