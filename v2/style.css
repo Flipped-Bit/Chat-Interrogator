@@ -14,8 +14,15 @@ body {
   overflow: hidden;
 }
 
-button, input, select, svg {
+button,
+input,
+select,
+svg {
   -webkit-app-region: no-drag;
+}
+
+input[type="checkbox"] {
+  accent-color: black;
 }
 
 svg {
@@ -24,30 +31,56 @@ svg {
 
 .card {
   background-color: var(--light-grey);
+  height: 240px;
+}
+
+.card-body {
+  margin: 11px;
+}
+
+.card-body div,
+.card-body div input {
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.card-header {
+  font-size: xx-large;
+  height: 40px;
+  width: 300px;
 }
 
 .draggable {
   cursor: move;
 }
 
-.hidden {opacity: 0;}
-.hidden:hover {opacity: 1;}
+.hidden {
+  opacity: 0;
+}
+
+.hidden:hover {
+  opacity: 1;
+}
+
+.narrow {
+  width: 26px;
+}
 
 #canvas-container {
   grid-area: canvas;
 }
 
-#closeBtn{
+#closeBtn {
   background-color: transparent;
   border: 0;
   color: gray;
-  float: right; 
+  float: right;
   font-size: large;
-  height: 40px; 
+  height: 40px;
   width: 40px;
 }
 
-#closeBtn:hover{
+#closeBtn:hover {
   background-color: red;
   color: white;
 }
@@ -74,11 +107,15 @@ svg {
     "header"
     "main"
     "footer";
-    grid-template-columns: 1fr;
-    grid-template-rows: 40px 1000px;
+  grid-template-columns: 1fr;
+  grid-template-rows: 40px 1000px;
 }
 
 #sidebar {
   background-color: var(--mid-grey);
+  display: flex;
+  flex-direction: column;
   grid-area: sidebar;
+  height: 999px;
+  justify-content: space-between;
 }
