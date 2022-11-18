@@ -1,5 +1,4 @@
-const fs = require('fs');
-const path = require('path');
+const { getDataFromConfigFile } = require('./fileAccessManager');
 
 class PathGenerator {
     constructor() {
@@ -7,22 +6,8 @@ class PathGenerator {
     }
 }
 
-function getDataFromConfigFile(configFileName) {
-    var configPath = path.join(process.env.APPDATA, "Chat Interrogator", "config");
-    var files = fs.readdirSync(configPath)
-        .filter(a => a == configFileName);
-
-    if (files.length > 0) {
-        let rawdata = fs.readFileSync(path.join(configPath, configFileName), 'utf8');
-        return JSON.parse(rawdata);
-    }
-    return {};
-}
-
 function generatePaths() {
-
     let data = getDataFromConfigFile("pathData.json")
-
     let paths = {};
 
     if (data["All"] !== undefined && data["Directions"] !== undefined) {
