@@ -60,6 +60,15 @@ function setupControlPanels() {
 
   // set up control panels
   Array.from(controlPanels).forEach((cp, i) => {
+    var id = i + 1;
+    cp.querySelector('.prev').addEventListener("click", (e) => {
+      previousIcon(e, id)
+    });
+    cp.querySelector('.direction-selector').value = "SW";
+    cp.querySelector('.next').addEventListener("click", (e) => {
+      nextIcon(e, id)
+    });
+
     cp.querySelector('input[type="checkbox"]').checked = true;
     cp.querySelector('input[type="checkbox"]').addEventListener("click", (e) => {
       var selector = e.target.previousElementSibling
