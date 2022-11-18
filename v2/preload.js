@@ -24,8 +24,11 @@ function setupControlPanels() {
   // set up control panels
   Array.from(controlPanels).forEach((cp, i) => {
     cp.querySelector('input[type="checkbox"]').checked = true;
+    cp.querySelector('input[type="checkbox"]').addEventListener("click", (e) => {
+      var selector = e.target.previousElementSibling
+      selector.disabled = !selector.disabled
+    });
     cp.querySelector('select').disabled = false;
-
     setVoices(cp.querySelector('select'), "", voices);
   });
 }
