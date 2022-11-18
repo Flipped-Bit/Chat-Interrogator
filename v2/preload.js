@@ -3,10 +3,12 @@
 // Modules to ipc flow
 const { getAvailableDirections, getAvailableVoices } = require('./services/configManager');
 const { PathGenerator } = require('./utils/pathGenerator');
+const { drag, endDrag, startDrag } = require('./services/canvasManager');
 const { ipcRenderer } = require('electron');
 
 var voiceIndexes = new Map();
 var directions = [];
+let isEditableItem = {};
 
 window.addEventListener('DOMContentLoaded', setupUI);
 
@@ -14,6 +16,18 @@ function setupButtons() {
   document.getElementById("closeBtn").addEventListener("click", function (e) {
     ipcRenderer.send('closeApp');
   });
+}
+
+function editItem(e, id) {
+  isEditableItem[id] = !isEditableItem[id]
+  var group = document.getElementById(id);
+  for (const child of group.children) {
+      if (child.classList.contains("confine")) {
+          child.classList.toggle("draggable");
+      }
+  }
+  group.parentNode.appendChild(group);
+  e.target.innerText = isEditableItem[id] ? "Save Layout" : "Edit Layout";
 }
 
 function nextIcon(e, id) {
@@ -76,12 +90,17 @@ function setupControlPanels() {
     });
     cp.querySelector('select').disabled = false;
     setVoices(cp.querySelector('select'), "", voices);
+
+    cp.querySelector('.edit').addEventListener("click", (e) => {
+      editItem(e, id)
+    });
   });
 }
 
 function setupUI() {
   setupButtons();
   setupControlPanels();
+  setUpCanvas();
   setupPaths();
 }
 
@@ -115,4 +134,15 @@ function setVoices(dropdown, voice, voices) {
     dropdown.selectedIndex = 0;
     console.log(`Unable to set dropdown for voice:${voice}`);
   }
+}
+
+function setUpCanvas() {
+  var canvas = document.getElementById("canvas");
+
+  canvas.addEventListener('mousedown', startDrag);
+  canvas.addEventListener('mousemove', drag);
+  canvas.addEventListener('mouseup', endDrag);
+  canvas.addEventListener('mouseleave', endDrag);
+
+  return canvas;
 }
