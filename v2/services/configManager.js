@@ -13,6 +13,13 @@ function getDataFromConfigFile(configFileName) {
     return {};
 }
 
+function getAvailableDirections() {
+    var data = getDataFromConfigFile("pathData.json");
+    var directions = Object.keys(data.Directions);
+    
+    return directions;
+}
+
 function getAvailableVoices() {
     var data = getDataFromConfigFile("voiceData.json");
     var voices = [];
@@ -28,5 +35,6 @@ function getAvailableVoices() {
 }
 
 module.exports = {
+    getAvailableDirections,
     getAvailableVoices
 }

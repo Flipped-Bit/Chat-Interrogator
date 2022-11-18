@@ -1,11 +1,12 @@
 // preload.js
 
 // Modules to ipc flow
-const { getAvailableVoices } = require('./services/configManager');
+const { getAvailableDirections, getAvailableVoices } = require('./services/configManager');
 const { PathGenerator } = require('./utils/pathGenerator');
 const { ipcRenderer } = require('electron');
 
 var voiceIndexes = new Map();
+var directions = [];
 
 window.addEventListener('DOMContentLoaded', setupUI);
 
@@ -15,10 +16,46 @@ function setupButtons() {
   });
 }
 
+function nextIcon(e, id) {
+  var svgPath = document.getElementById(id).querySelector('path');
+  var dir = svgPath.dataset.direction;
+
+  // Get existing icon index
+  var index = directions.indexOf(dir);
+
+  // Get next icon
+  var nextIndex = (index + 1) % directions.length;
+  var newDir = directions[nextIndex];
+
+  // Update to next icon
+  svgPath.setAttribute("d", pathGenerator.paths[newDir]);
+  svgPath.setAttribute("data-direction", newDir);
+  e.target.previousElementSibling.value = newDir;
+}
+
+function previousIcon(e, id) {
+  var svgPath = document.getElementById(id).querySelector('path');
+  var dir = svgPath.dataset.direction;
+
+  // Get existing icon index
+  var index = directions.indexOf(dir);
+
+  // Get prev icon
+  var prevIndex = index > 0 ?
+    index - 1 : directions.length - 1;
+  var newDir = directions[prevIndex];
+
+  // Update to prev icon
+  svgPath.setAttribute("d", pathGenerator.paths[newDir]);
+  svgPath.setAttribute("data-direction", newDir);
+  e.target.nextElementSibling.value = newDir;
+}
+
 function setupControlPanels() {
   var sidebar = document.getElementById("sidebar");
   var controlPanels = sidebar.children;
 
+  directions = getAvailableDirections();
   var voices = getAvailableVoices();
 
   // set up control panels
