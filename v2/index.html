@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self';">
+  <meta http-equiv="X-Content-Security-Policy" content="default-src 'self';">
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+  <div id="page-grid">
+    <div id="header">
+      <input id="closeBtn" type="button" value="X">
+    </div>
+    <div id="main-grid">
+      <div id="sidebar">
+        <div class="card" id="config-1">
+          <div class="card-body">
+            <div>
+              <input class="card-header" placeholder="name">
+            </div>
+            <div>
+              <span>Image</span>
+            </div>
+            <div>
+              <button class="prev">&lt;</button>
+              <input class="direction-selector narrow" readonly placeholder="dir">
+              <button class="next">&gt;</button>
+            </div>
+            <div>
+              <span>Username</span>
+            </div>
+            <div>
+              <input class="username-selector" placeholder="username" >
+            </div>
+            <div>
+              <span>Voice</span>
+            </div>
+            <div>
+              <select placeholder="username">
+                <option>Select a Voice</option>
+              </select>
+              <input type="checkbox">
+            </div>
+            <div>
+              <button class="edit">Edit Layout</button>
+            </div>
+          </div>
+        </div>
+        <div class="card" id="config-2">
+          <div class="card-body">
+            <div>
+              <input class="card-header" placeholder="name">
+            </div>
+            <div>
+              <span>Image</span>
+            </div>
+            <div>
+              <button class="prev">&lt;</button>
+              <input class="direction-selector narrow" readonly placeholder="dir">
+              <button class="next">&gt;</button>
+            </div>
+            <div>
+              <span>Username</span>
+            </div>
+            <div>
+              <input class="username-selector" placeholder="username" >
+            </div>
+            <div>
+              <span>Voice</span>
+            </div>
+            <div>
+              <select placeholder="username">
+                <option>Select a Voice</option>
+              </select>
+              <input type="checkbox">
+            </div>
+            <div>
+              <button class="edit">Edit Layout</button>
+            </div>
+          </div>
+        </div>
+        <div class="card" id="config-3">
+          <div class="card-body">
+            <div>
+              <input class="card-header" placeholder="name">
+            </div>
+            <div>
+              <span>Image</span>
+            </div>
+            <div>
+              <button class="prev">&lt;</button>
+              <input class="direction-selector narrow" readonly placeholder="dir">
+              <button class="next">&gt;</button>
+            </div>
+            <div>
+              <span>Username</span>
+            </div>
+            <div>
+              <input class="username-selector" placeholder="username" >
+            </div>
+            <div>
+              <span>Voice</span>
+            </div>
+            <div>
+              <select placeholder="username">
+                <option>Select a Voice</option>
+              </select>
+              <input type="checkbox">
+            </div>
+            <div>
+              <button class="edit">Edit Layout</button>
+            </div>
+          </div>
+        </div>
+        <div class="card" id="config-4">
+          <div class="card-body">
+            <div>
+              <input class="card-header" placeholder="name">
+            </div>
+            <div>
+              <span>Image</span>
+            </div>
+            <div>
+              <button class="prev">&lt;</button>
+              <input class="direction-selector narrow" readonly placeholder="dir">
+              <button class="next">&gt;</button>
+            </div>
+            <div>
+              <span>Username</span>
+            </div>
+            <div>
+              <input class="username-selector" placeholder="username" >
+            </div>
+            <div>
+              <span>Voice</span>
+            </div>
+            <div>
+              <select placeholder="username">
+                <option>Select a Voice</option>
+              </select>
+              <input type="checkbox">
+            </div>
+            <div>
+              <button class="edit">Edit Layout</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="canvas-container">
+        <svg id="canvas" height="1000" width="1000">
+          <g id="1">
+            <path class="confine" fill="#FFF" stroke="#000"></path>
+            <foreignObject height="110" pointer-events="none" width="230" x="95" y="79">
+              <div>Speech Bubble 1 Created</div>
+              <audio autoplay class="player">
+                <audio class="source" src type="audio/mpeg"></audio>
+              </audio>
+            </foreignObject>
+            <text class="confine" dominant-baseline="middle" fill="black" font-weight="bold" stroke="white" stroke-width="0.3" text-anchor="middle" x="210" y="20">USERNAME</text>
+          </g>
+          <g id="2">
+            <path class="confine" fill="#FFF" stroke="#000"></path>
+            <foreignObject height="110" pointer-events="none" width="230" x="95" y="79">
+              <div>Speech Bubble 2 Created</div>
+              <audio autoplay class="player">
+                <audio class="source" src type="audio/mpeg"></audio>
+              </audio>
+            </foreignObject>
+            <text class="confine" dominant-baseline="middle" fill="black" font-weight="bold" stroke="white" stroke-width="0.3" text-anchor="middle" x="210" y="20">USERNAME</text>
+          </g>
+          <g id="3">
+            <path class="confine" fill="#FFF" stroke="#000"></path>
+            <foreignObject height="110" pointer-events="none" width="230" x="95" y="79">
+              <div>Speech Bubble 3 Created</div>
+              <audio autoplay class="player">
+                <audio class="source" src type="audio/mpeg"></audio>
+              </audio>
+            </foreignObject>
+            <text class="confine" dominant-baseline="middle" fill="black" font-weight="bold" stroke="white" stroke-width="0.3" text-anchor="middle" x="210" y="20">USERNAME</text>
+          </g>
+          <g id="4">
+            <path class="confine" fill="#FFF" stroke="#000"></path>
+            <foreignObject height="110" pointer-events="none" width="230" x="95" y="79">
+              <div>Speech Bubble 4 Created</div>
+              <audio autoplay class="player">
+                <audio class="source" src type="audio/mpeg"></audio>
+              </audio>
+            </foreignObject>
+            <text class="confine" dominant-baseline="middle" fill="black" font-weight="bold" stroke="white" stroke-width="0.3" text-anchor="middle" x="210" y="20">USERNAME</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

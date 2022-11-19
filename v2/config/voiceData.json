@@ -1,0 +1,12 @@
+{
+    "Voices": {
+        "American": {
+            "Feminine": "Kimberly",
+            "Masculine": "Joey"
+        },
+        "English": {
+            "Feminine": "Emma",
+            "Masculine": "Brian"
+        }
+    }
+}

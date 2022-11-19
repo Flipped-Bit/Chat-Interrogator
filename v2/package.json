@@ -1,0 +1,30 @@
+{
+  "name": "chat_interrogator",
+  "productName": "Chat Interrogator",
+  "version": "2.0.0",
+  "description": "Application for viewing the latest messages from specific users in specific Twitch channels",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --publish never"
+  },
+  "author": "Flipped_Bit",
+  "build": {
+    "nsis": {
+      "allowToChangeInstallationDirectory": true,
+      "oneClick": false,
+      "include": "build/appdataInstaller.nsh"
+    },
+    "asarUnpack": [
+      "config/*"
+    ]
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^14.0.0",
+    "electron-builder": "^22.13.1"
+  },
+  "dependencies": {
+    "tmi.js": "^1.8.5"
+  }
+}
