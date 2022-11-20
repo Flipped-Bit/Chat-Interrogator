@@ -35,7 +35,7 @@ function setupButtons() {
     });
 
     // set connection state and update UI
-    isConnected = ! isConnected;
+    isConnected = !isConnected;
     e.target.innerText = isConnected ? "Disconnect" : "Connect";
   });
 }
