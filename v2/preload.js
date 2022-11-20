@@ -5,6 +5,7 @@ const { getAvailableDirections, getAvailableVoices } = require('./services/confi
 const { ChatListener } = require('./services/chatListenerService');
 const { PathGenerator } = require('./utils/pathGenerator');
 const { drag, endDrag, startDrag } = require('./services/canvasManager');
+const { load } = require('./services/stateManager')
 const { ipcRenderer } = require('electron');
 
 let chatListener;
@@ -128,6 +129,8 @@ function setupControlPanels() {
 }
 
 function setupUI() {
+  state = load();
+  console.log(JSON.stringify(state))
   setupButtons();
   setupControlPanels();
   setUpCanvas();
