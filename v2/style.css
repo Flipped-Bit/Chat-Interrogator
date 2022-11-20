@@ -44,7 +44,7 @@ svg {
   background-color: var(--chroma-green);
 }
 
-text[class="confine"] {
+text {
   font-size: xx-large;
   font-family: 'Impact', Impact;
 }
