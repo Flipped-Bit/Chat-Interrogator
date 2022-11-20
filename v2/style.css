@@ -74,6 +74,25 @@ text[class="confine"] {
   cursor: move;
 }
 
+.fadeOut {
+  opacity: 0;
+  animation: 5s ease-out 1 fade;
+}
+
+@keyframes fade {
+	0% {
+    opacity: 1;
+  }
+  
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
 .hidden {
   opacity: 0;
 }

@@ -298,3 +298,21 @@ function setupCanvasItems(state) {
     c.setAttribute('transform', `translate(${state[i].offset.x},${state[i].offset.y})`);
   });
 }
+
+function resetAnimations(id, lm, sb) {
+  // bring to top
+  var group = document.getElementById(id);
+  group.parentNode.appendChild(group);
+
+  // remove used animation
+  lm.classList.remove("fadeOut");
+  sb.classList.remove("fadeOut");
+
+  // trigger a DOM reflow 
+  void lm.offsetWidth;
+  void sb.offsetWidth;
+
+  // re-add animation
+  lm.classList.add("fadeOut");
+  sb.classList.add("fadeOut");
+}
