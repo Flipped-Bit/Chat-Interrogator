@@ -38,6 +38,7 @@ function setupButtons() {
       // set connection state and update UI
       isConnected = !isConnected;
       e.target.innerText = isConnected ? "Disconnect" : "Connect";
+      document.querySelector('#channel-selector').disabled = isConnected;
     }
   });
 }
