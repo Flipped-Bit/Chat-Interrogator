@@ -5,7 +5,7 @@ const { getAvailableDirections, getAvailableVoices } = require('./services/confi
 const { ChatListener } = require('./services/chatListenerService');
 const { PathGenerator } = require('./utils/pathGenerator');
 const { drag, endDrag, startDrag } = require('./services/canvasManager');
-const { load } = require('./services/stateManager')
+const { load, save } = require('./services/stateManager')
 const { ipcRenderer } = require('electron');
 
 let state;
@@ -19,6 +19,8 @@ window.addEventListener('DOMContentLoaded', setupUI);
 
 function setupButtons() {
   document.getElementById("closeBtn").addEventListener("click", function (e) {
+    state = getLatestState();
+    save(state);
     ipcRenderer.send('closeApp');
   });
 
@@ -182,6 +184,54 @@ function setVoices(dropdown, voice, voices) {
   }
 }
 
+// State management
+function getLatestState() {
+  var newState = [];
+  var groups = Array.from(document.getElementsByTagName("g"))
+    .sort((a, b) => a.id - b.id);
+  groups.forEach((g) => {
+    var item = {};
+    item = getConfigData(g.id, item);
+    newState.push(item);
+  });
+
+  return newState;
+}
+
+function getCanvasPositions(id, item) {
+  var l = document.getElementById(`UN${id}`);
+  item.labelOffset = getTranslationCoordinates(l)
+
+  var p = document.getElementById(`SB${id}`);
+  item.offset = getTranslationCoordinates(p);
+
+  return item;
+}
+
+function getConfigData(id, item) {
+  var c = document.getElementById(`config-${id}`);
+  item.assignedName = c.querySelector('.card-header').value;
+  item.assignedUser = c.querySelector('.username-selector').value;
+  
+  item = getCanvasPositions(id, item);
+
+  item.type = c.querySelector('.direction-selector').value;
+
+  var enabled = c.querySelector('input[type="checkbox"]').checked;
+  var selectedVoice = c.querySelector('select').selectedOptions[0];
+  var selected = selectedVoice.label == "Select a Voice" ? "None" : selectedVoice.label;
+  
+  item.voice = {enabled, selected}
+
+  return item;
+}
+
+function getTranslationCoordinates(element) {
+  var transform = element.getAttribute('transform');
+  var coords = transform.match(/\d+\.?\d?/g);
+
+  return { x: Number(coords[0]), y: Number(coords[1]) };
+}
 
 // Canvas Setup
 function setupCanvas(state) {
