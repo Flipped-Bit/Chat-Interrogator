@@ -183,11 +183,11 @@ function setVoices(dropdown, voice, voices) {
 // Canvas Setup
 function setupCanvas(state) {
 
-  setupPaths(state);
-  setUpCanvasEvents();
+  setupCanvasItems(state);
+  setupCanvasEvents();
 }
 
-function setUpCanvasEvents() {
+function setupCanvasEvents() {
   var canvas = document.getElementById("canvas");
 
   canvas.addEventListener('mousedown', startDrag);
@@ -196,7 +196,7 @@ function setUpCanvasEvents() {
   canvas.addEventListener('mouseleave', endDrag);
 }
 
-function setupPaths(state) {
+function setupCanvasItems(state) {
   var pathGenerator = new PathGenerator();
   var paths = document.getElementsByTagName("path");
 
