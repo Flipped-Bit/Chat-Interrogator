@@ -21,6 +21,16 @@ svg {
   -webkit-app-region: no-drag;
 }
 
+foreignObject > div {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  font-family: 'Comic Sans';
+}
+
 input[type="checkbox"] {
   accent-color: black;
 }
@@ -123,4 +133,9 @@ svg {
   grid-area: sidebar;
   height: 999px;
   justify-content: space-between;
+}
+
+@font-face {
+  font-family: 'Comic Sans';
+  src: url('./resources/fonts/ComicMono-Bold.ttf');
 }
