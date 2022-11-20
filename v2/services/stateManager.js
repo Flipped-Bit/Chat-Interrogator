@@ -2,11 +2,11 @@ const fs = require('fs');
 const path = require('path');
 const { getDataFromConfigFile } = require('../utils/fileAccessManager');
 
-const saveStatePath = path.join(process.env.APPDATA, "Chat Interrogator", "saves", "saveState.json");
+const saveStateDir = path.join(process.env.APPDATA, "Chat Interrogator", "saves");
 
 function load() {
-    if (fs.existsSync(saveStatePath)) {
-        var saves = fs.readdirSync(saveStatePath);
+    if (fs.existsSync(saveStateDir)) {
+        var saves = fs.readdirSync(saveStateDir);
         console.log("\nCurrent directory filenames:");
         saves.forEach(file => {
             console.log(file);
@@ -14,7 +14,7 @@ function load() {
 
         if (saves.length > 0) {
             console.log(`Save State found, loading layout from ${saves[0]}`);
-            let rawdata = fs.readFileSync(path.join(saveStatePath, saves[0]), 'utf8');
+            let rawdata = fs.readFileSync(path.join(saveStateDir, saves[0]), 'utf8');
             return JSON.parse(rawdata);
         }
     }
@@ -31,6 +31,8 @@ function save(saveState) {
     if (defaultData == saveData) {
         return
     }
+
+    var saveStatePath = path.join(saveStateDir, "saveState.json");
 
     fs.writeFile(saveStatePath, saveData, 'utf8', (err) => {
         if (err) {
