@@ -137,7 +137,11 @@ function setupChatlistener() {
   var channel = document.querySelector('#channel-selector').value;
 
   if (channel === "") {
-    return
+    if (chatListener !== undefined) {
+      chatListener.disconnect();
+      chatListener = undefined;
+    }
+    return;
   }
 
   chatListener = new ChatListener(channel);
