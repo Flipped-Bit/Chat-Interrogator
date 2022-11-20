@@ -7,19 +7,15 @@ const saveStateDir = path.join(process.env.APPDATA, "Chat Interrogator", "saves"
 function load() {
     if (fs.existsSync(saveStateDir)) {
         var saves = fs.readdirSync(saveStateDir);
-        console.log("\nCurrent directory filenames:");
-        saves.forEach(file => {
-            console.log(file);
-        });
 
         if (saves.length > 0) {
-            console.log(`Save State found, loading layout from ${saves[0]}`);
+            console.info(`Save State found, loading layout from ${saves[0]}`);
             let rawdata = fs.readFileSync(path.join(saveStateDir, saves[0]), 'utf8');
             return JSON.parse(rawdata);
         }
     }
 
-    console.log("Save State not found, loading default layout");
+    console.info("Save State not found, loading default layout");
     return getDataFromConfigFile("defaultState.json");
 }
 
@@ -38,7 +34,7 @@ function save(saveState) {
         if (err) {
             console.error(`Failed to update Save State, ${err}`);
         }
-        console.log("Save State updated");
+        console.info("Save State updated");
     });
 }
 

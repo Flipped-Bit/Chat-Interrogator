@@ -135,7 +135,6 @@ function setupControlPanels(state) {
 
 function setupUI() {
   state = load();
-  console.log(JSON.stringify(state))
   setupCanvas(state);
   setupButtons();
   setupControlPanels(state);
@@ -159,7 +158,7 @@ function setupChatlistener() {
   chatListener.client.on('message', (channel, tags, message, self) => {
     var sender = { base: tags['username'], display: tags['display-name'] };
     var username = sender.base !== sender.display.toLowerCase() ? sender.base : sender.display;
-    console.log(`${username}: ${message}`);
+    console.info(`${username}: ${message}`);
   });
 }
 
