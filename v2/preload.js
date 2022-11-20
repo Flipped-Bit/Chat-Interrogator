@@ -106,6 +106,8 @@ function setupControlPanels(state) {
 
   // set up control panels
   Array.from(controlPanels).forEach((cp, i) => {
+    cp.querySelector('.card-header').value = state[i].assignedName;
+    
     var id = i + 1;
     cp.querySelector('.prev').addEventListener("click", (e) => {
       previousIcon(e, id)
