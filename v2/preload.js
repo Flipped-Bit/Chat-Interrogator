@@ -120,6 +120,10 @@ function setupControlPanels(state) {
     });
 
     cp.querySelector('.username-selector').value = state[i].assignedUser;
+    cp.querySelector('.username-selector').addEventListener("input", (e) => {
+      var l = document.getElementById(`UN${id}`);
+      l.textContent = e.target.value !== "" ? e.target.value : "USERNAME";
+    });
 
     cp.querySelector('input[type="checkbox"]').checked = state[i].voice.enabled;
     cp.querySelector('input[type="checkbox"]').addEventListener("click", (e) => {
