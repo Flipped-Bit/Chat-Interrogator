@@ -1,6 +1,7 @@
 // preload.js
 
 // Modules to ipc flow
+var maxLineLength = 26;
 const { getAvailableDirections, getAvailableVoices } = require('./services/configManager');
 const { ChatListener } = require('./services/chatListenerService');
 const { PathGenerator } = require('./utils/pathGenerator');
@@ -166,6 +167,27 @@ function setupChatlistener() {
     var username = sender.base !== sender.display.toLowerCase() ? sender.base : sender.display;
     console.info(`${username}: ${message}`);
   });
+}
+
+function validate(message) {
+  if (message == "") {
+    return message;
+  }
+  var lines = message.match(new RegExp(".{1," + maxLineLength + "}(\\s|$)", 'g'));
+  if (lines.length > 5) {
+    trimmedLines = lines.slice(0, 5);
+    updatedLines = updateLastLine(trimmedLines);
+    return updatedLines.join("");
+  }
+  else {
+    return message;
+  }
+}
+
+function updateLastLine(lines) {
+  var editedLine = lines[4].slice(0, -3);
+  lines[4] = editedLine.trim() + "...";
+  return lines;
 }
 
 function setVoices(dropdown, voice, voices) {
