@@ -1,13 +1,8 @@
-const boundary = {
-    x1: 0,
-    x2: 1000,
-    y1: 0,
-    y2: 1000,
-}
-var element = { child: { item: undefined, transform: undefined }, item: undefined, transform: undefined }
+const boundary = { x1: 0, x2: 1000, y1: 0, y2: 1000 };
+var element = { child: { item: undefined, transform: undefined }, item: undefined, transform: undefined };
 
-var max = { x: 0, y: 0 }
-var min = { x: 0, y: 0 }
+var max = { x: 0, y: 0 };
+var min = { x: 0, y: 0 };
 
 var bbox, confined, offset;
 
@@ -79,8 +74,8 @@ function drag(evt) {
 }
 
 function endDrag(evt) {
-    element.item = false
-    element.child.item = false
+    element.item = false;
+    element.child.item = false;
 }
 
 function getTransfromForItem(item, itemTransform) {
@@ -95,7 +90,6 @@ function getTransfromForItem(item, itemTransform) {
     if (transforms.length === 0 || transforms.getItem(0).type !== SVGTransform.SVG_TRANSFORM_TRANSLATE) {
         var translate = document.getElementById("canvas").createSVGTransform();
         translate.setTranslate(0, 0);
-        console.log(translate)
         item.transform.baseVal.insertItemBefore(translate, 0);
     }
 

@@ -14,7 +14,7 @@ function getAvailableVoices() {
     for (const accent in data.Voices) {
         var options = data.Voices[accent];
         for (const o in options) {
-            voices.push({label:`${accent} (${o})`, value:options[o]})
+            voices.push({label:`${accent} (${o})`, value:options[o]});
         }
     }
 
