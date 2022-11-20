@@ -119,6 +119,8 @@ function setupControlPanels(state) {
       nextIcon(e, id)
     });
 
+    cp.querySelector('.username-selector').value = state[i].assignedUser;
+
     cp.querySelector('input[type="checkbox"]').checked = state[i].voice.enabled;
     cp.querySelector('input[type="checkbox"]').addEventListener("click", (e) => {
       var selector = e.target.previousElementSibling
@@ -263,7 +265,7 @@ function setupCanvasItems(state) {
     p.setAttribute('transform', `translate(${state[i].offset.x},${state[i].offset.y})`);
 
     var l = document.getElementById(`UN${id}`);
-    l.textContent = state[i].assignedUser;
+    l.textContent = state[i].assignedUser !== "" ? "USERNAME" : state[i].assignedUser;
     l.setAttribute('transform', `translate(${state[i].labelOffset.x},${state[i].labelOffset.y})`);
 
     var c = document.getElementById(`MC${id}`);
