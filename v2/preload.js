@@ -9,7 +9,7 @@ const { load, save } = require('./services/stateManager')
 const { ipcRenderer } = require('electron');
 
 let state;
-let chatListener;
+let chatListener, pathGenerator;
 var voiceIndexes = new Map();
 var isConnected = false;
 var directions = [];
@@ -250,7 +250,7 @@ function setupCanvasEvents() {
 }
 
 function setupCanvasItems(state) {
-  var pathGenerator = new PathGenerator();
+  pathGenerator = new PathGenerator();
   var groups = document.getElementsByTagName("g");
 
   Array.from(groups).forEach((g, i) => {
