@@ -25,7 +25,7 @@ function load() {
 
 function save(saveState) {
     var saveData = JSON.stringify(saveState, null, '\t');
-    var defaultData = JSON.stringify(getDataFromConfigFile("defaultState.json"));
+    var defaultData = JSON.stringify(getDataFromConfigFile("defaultState.json"), null, '\t');
 
     // If state is unchanged from default, avoid saving
     if (defaultData == saveData) {
