@@ -2,11 +2,14 @@
 
 // Modules to ipc flow
 const { getAvailableDirections, getAvailableVoices } = require('./services/configManager');
+const { ChatListener } = require('./services/chatListenerService');
 const { PathGenerator } = require('./utils/pathGenerator');
 const { drag, endDrag, startDrag } = require('./services/canvasManager');
 const { ipcRenderer } = require('electron');
 
+let chatListener;
 var voiceIndexes = new Map();
+var isConnected = false;
 var directions = [];
 let isEditableItem = {};
 
@@ -15,6 +18,19 @@ window.addEventListener('DOMContentLoaded', setupUI);
 function setupButtons() {
   document.getElementById("closeBtn").addEventListener("click", function (e) {
     ipcRenderer.send('closeApp');
+  });
+
+  document.getElementById("connect").addEventListener("click", function (e) {
+    if (isConnected) {
+      chatListener.disconnect();
+    }
+    else {
+      setupChatlistener();
+    }
+
+    // set connection state and update UI
+    isConnected = ! isConnected;
+    e.target.innerText = isConnected ? "Disconnect" : "Connect";
   });
 }
 
@@ -101,6 +117,24 @@ function setupUI() {
   setupControlPanels();
   setUpCanvas();
   setupPaths();
+}
+
+function setupChatlistener() {
+  var channel = document.querySelector('#channel-selector').value;
+
+  if (channel === "") {
+    return
+  }
+
+  chatListener = new ChatListener(channel);
+
+  chatListener.connect();
+
+  chatListener.client.on('message', (channel, tags, message, self) => {
+    var sender = { base: tags['username'], display: tags['display-name'] };
+    var username = sender.base !== sender.display.toLowerCase() ? sender.base : sender.display;
+    console.log(`${username}: ${message}`);
+  });
 }
 
 function setupPaths() {
