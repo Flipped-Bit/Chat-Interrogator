@@ -98,7 +98,7 @@ function previousIcon(e, id) {
   e.target.nextElementSibling.value = newDir;
 }
 
-function setupControlPanels() {
+function setupControlPanels(state) {
   var controlPanels = document.querySelectorAll('#sidebar > div[class="card"]');
 
   directions = getAvailableDirections();
@@ -110,18 +110,18 @@ function setupControlPanels() {
     cp.querySelector('.prev').addEventListener("click", (e) => {
       previousIcon(e, id)
     });
-    cp.querySelector('.direction-selector').value = "SW";
+    cp.querySelector('.direction-selector').value = state[i].type;
     cp.querySelector('.next').addEventListener("click", (e) => {
       nextIcon(e, id)
     });
 
-    cp.querySelector('input[type="checkbox"]').checked = true;
+    cp.querySelector('input[type="checkbox"]').checked = state[i].voice.enabled;
     cp.querySelector('input[type="checkbox"]').addEventListener("click", (e) => {
       var selector = e.target.previousElementSibling
       selector.disabled = !selector.disabled
     });
-    cp.querySelector('select').disabled = false;
-    setVoices(cp.querySelector('select'), "", voices);
+    cp.querySelector('select').disabled = !state[i].voice.enabled;
+    setVoices(cp.querySelector('select'), state[i].voice.selected, voices);
 
     cp.querySelector('.edit').addEventListener("click", (e) => {
       editItem(e, id)
@@ -134,7 +134,7 @@ function setupUI() {
   console.log(JSON.stringify(state))
   setupCanvas(state);
   setupButtons();
-  setupControlPanels();
+  setupControlPanels(state);
 }
 
 function setupChatlistener() {
