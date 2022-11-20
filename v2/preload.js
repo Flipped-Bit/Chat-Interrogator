@@ -148,6 +148,10 @@ function setupUI() {
 }
 
 function setupChatlistener() {
+  if (chatListener !== undefined) {
+    chatListener.disconnect();
+  }
+  
   var channel = document.querySelector('#channel-selector').value;
 
   if (channel === "") {
