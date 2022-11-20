@@ -55,6 +55,9 @@ function editItem(e, id) {
       if (child.classList.contains("confine")) {
           child.classList.toggle("draggable");
       }
+      if (child.classList.contains("fadeOut")) {
+        child.classList.remove("fadeOut");
+    }
   }
   group.parentNode.appendChild(group);
   e.target.innerText = isEditableItem[id] ? "Save Layout" : "Edit Layout";

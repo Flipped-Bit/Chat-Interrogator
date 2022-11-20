@@ -22,6 +22,7 @@ svg {
 }
 
 foreignObject > div {
+  opacity: 0;
   align-items: center;
   display: flex;
   height: 100%;
@@ -33,6 +34,10 @@ foreignObject > div {
 
 input[type="checkbox"] {
   accent-color: black;
+}
+
+path {
+  opacity: 0;
 }
 
 svg {
@@ -71,6 +76,7 @@ text[class="confine"] {
 }
 
 .draggable {
+  opacity: 1;
   cursor: move;
 }
 
