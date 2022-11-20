@@ -50,6 +50,12 @@ function editItem(e, id) {
   }
   group.parentNode.appendChild(group);
   e.target.innerText = isEditableItem[id] ? "Save Layout" : "Edit Layout";
+
+  // disable connect button if layout is being edited
+  if (Object.values(isEditableItem).length > 0) {
+    var isBeingEdited = Object.values(isEditableItem).some(e => e === true)
+    document.getElementById("connect").disabled = isBeingEdited;
+  }
 }
 
 function nextIcon(e, id) {
