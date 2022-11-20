@@ -2,11 +2,14 @@
 
 // Modules to ipc flow
 const { getAvailableDirections, getAvailableVoices } = require('./services/configManager');
+const { ChatListener } = require('./services/chatListenerService');
 const { PathGenerator } = require('./utils/pathGenerator');
 const { drag, endDrag, startDrag } = require('./services/canvasManager');
 const { ipcRenderer } = require('electron');
 
+let chatListener;
 var voiceIndexes = new Map();
+var isConnected = false;
 var directions = [];
 let isEditableItem = {};
 
@@ -15,6 +18,28 @@ window.addEventListener('DOMContentLoaded', setupUI);
 function setupButtons() {
   document.getElementById("closeBtn").addEventListener("click", function (e) {
     ipcRenderer.send('closeApp');
+  });
+
+  document.getElementById("connect").addEventListener("click", function (e) {
+    if (isConnected) {
+      chatListener.disconnect();
+    }
+    else {
+      setupChatlistener();
+    }
+
+    if (chatListener !== undefined) {
+      // disable layout editing
+      var layoutEditButtons = document.querySelectorAll('button[class="edit"]')
+      Array.from(layoutEditButtons).forEach(btn => {
+        btn.disabled = !btn.disabled;
+      });
+
+      // set connection state and update UI
+      isConnected = !isConnected;
+      e.target.innerText = isConnected ? "Disconnect" : "Connect";
+      document.querySelector('#channel-selector').disabled = isConnected;
+    }
   });
 }
 
@@ -28,6 +53,12 @@ function editItem(e, id) {
   }
   group.parentNode.appendChild(group);
   e.target.innerText = isEditableItem[id] ? "Save Layout" : "Edit Layout";
+
+  // disable connect button if layout is being edited
+  if (Object.values(isEditableItem).length > 0) {
+    var isBeingEdited = Object.values(isEditableItem).some(e => e === true)
+    document.getElementById("connect").disabled = isBeingEdited;
+  }
 }
 
 function nextIcon(e, id) {
@@ -66,8 +97,7 @@ function previousIcon(e, id) {
 }
 
 function setupControlPanels() {
-  var sidebar = document.getElementById("sidebar");
-  var controlPanels = sidebar.children;
+  var controlPanels = document.querySelectorAll('#sidebar > div[class="card"]');
 
   directions = getAvailableDirections();
   var voices = getAvailableVoices();
@@ -102,6 +132,28 @@ function setupUI() {
   setupControlPanels();
   setUpCanvas();
   setupPaths();
+}
+
+function setupChatlistener() {
+  var channel = document.querySelector('#channel-selector').value;
+
+  if (channel === "") {
+    if (chatListener !== undefined) {
+      chatListener.disconnect();
+      chatListener = undefined;
+    }
+    return;
+  }
+
+  chatListener = new ChatListener(channel);
+
+  chatListener.connect();
+
+  chatListener.client.on('message', (channel, tags, message, self) => {
+    var sender = { base: tags['username'], display: tags['display-name'] };
+    var username = sender.base !== sender.display.toLowerCase() ? sender.base : sender.display;
+    console.log(`${username}: ${message}`);
+  });
 }
 
 function setupPaths() {

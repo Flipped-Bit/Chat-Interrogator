@@ -31,7 +31,7 @@ svg {
 
 .card {
   background-color: var(--light-grey);
-  height: 240px;
+  height: 220px;
 }
 
 .card-body {
@@ -48,6 +48,11 @@ svg {
   font-size: xx-large;
   height: 40px;
   width: 300px;
+}
+
+.connection-manager {
+  background-color: var(--light-grey);
+  height: 80px;
 }
 
 .draggable {
