@@ -39,6 +39,11 @@ svg {
   background-color: var(--chroma-green);
 }
 
+text[class="confine"] {
+  font-size: xx-large;
+  font-family: 'Impact', Impact;
+}
+
 .card {
   background-color: var(--light-grey);
   height: 220px;
