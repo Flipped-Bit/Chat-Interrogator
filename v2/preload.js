@@ -178,8 +178,8 @@ function setVoices(dropdown, voice, voices) {
     dropdown.selectedIndex = voiceIndexes.get(voice);
   }
   else {
+    console.info(`Unable to set dropdown for voice:${voice}, defaulting to None`);
     dropdown.selectedIndex = 0;
-    console.log(`Unable to set dropdown for voice:${voice}`);
   }
 }
 
