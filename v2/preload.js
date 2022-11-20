@@ -28,15 +28,17 @@ function setupButtons() {
       setupChatlistener();
     }
 
-    // disable layout editing
-    var layoutEditButtons = document.querySelectorAll('button[class="edit"]')
-    Array.from(layoutEditButtons).forEach(btn => {
-      btn.disabled = !btn.disabled;
-    });
+    if (chatListener !== undefined) {
+      // disable layout editing
+      var layoutEditButtons = document.querySelectorAll('button[class="edit"]')
+      Array.from(layoutEditButtons).forEach(btn => {
+        btn.disabled = !btn.disabled;
+      });
 
-    // set connection state and update UI
-    isConnected = !isConnected;
-    e.target.innerText = isConnected ? "Disconnect" : "Connect";
+      // set connection state and update UI
+      isConnected = !isConnected;
+      e.target.innerText = isConnected ? "Disconnect" : "Connect";
+    }
   });
 }
 
