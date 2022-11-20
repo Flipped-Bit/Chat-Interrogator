@@ -163,6 +163,9 @@ function setupChatlistener() {
 }
 
 function setVoices(dropdown, voice, voices) {
+  // Add default case (None) to voice indexes
+  voiceIndexes.set('None', 0);
+  
   // Setup dropdown
   voices.forEach((v, i) => {
     if (voiceIndexes.has(v.label) == false) {
@@ -178,7 +181,7 @@ function setVoices(dropdown, voice, voices) {
     dropdown.selectedIndex = voiceIndexes.get(voice);
   }
   else {
-    console.info(`Unable to set dropdown for voice:${voice}, defaulting to None`);
+    console.warn(`Unable to set dropdown for voice:${voice}, defaulting to None`);
     dropdown.selectedIndex = 0;
   }
 }
