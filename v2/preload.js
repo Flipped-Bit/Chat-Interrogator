@@ -5,9 +5,11 @@ const { getAvailableDirections, getAvailableVoices } = require('./services/confi
 const { ChatListener } = require('./services/chatListenerService');
 const { PathGenerator } = require('./utils/pathGenerator');
 const { drag, endDrag, startDrag } = require('./services/canvasManager');
+const { load, save } = require('./services/stateManager')
 const { ipcRenderer } = require('electron');
 
-let chatListener;
+let state;
+let chatListener, pathGenerator;
 var voiceIndexes = new Map();
 var isConnected = false;
 var directions = [];
@@ -17,6 +19,8 @@ window.addEventListener('DOMContentLoaded', setupUI);
 
 function setupButtons() {
   document.getElementById("closeBtn").addEventListener("click", function (e) {
+    state = getLatestState();
+    save(state);
     ipcRenderer.send('closeApp');
   });
 
@@ -96,7 +100,7 @@ function previousIcon(e, id) {
   e.target.nextElementSibling.value = newDir;
 }
 
-function setupControlPanels() {
+function setupControlPanels(state) {
   var controlPanels = document.querySelectorAll('#sidebar > div[class="card"]');
 
   directions = getAvailableDirections();
@@ -104,22 +108,24 @@ function setupControlPanels() {
 
   // set up control panels
   Array.from(controlPanels).forEach((cp, i) => {
+    cp.querySelector('.card-header').value = state[i].assignedName;
+    
     var id = i + 1;
     cp.querySelector('.prev').addEventListener("click", (e) => {
       previousIcon(e, id)
     });
-    cp.querySelector('.direction-selector').value = "SW";
+    cp.querySelector('.direction-selector').value = state[i].type;
     cp.querySelector('.next').addEventListener("click", (e) => {
       nextIcon(e, id)
     });
 
-    cp.querySelector('input[type="checkbox"]').checked = true;
+    cp.querySelector('input[type="checkbox"]').checked = state[i].voice.enabled;
     cp.querySelector('input[type="checkbox"]').addEventListener("click", (e) => {
       var selector = e.target.previousElementSibling
       selector.disabled = !selector.disabled
     });
-    cp.querySelector('select').disabled = false;
-    setVoices(cp.querySelector('select'), "", voices);
+    cp.querySelector('select').disabled = !state[i].voice.enabled;
+    setVoices(cp.querySelector('select'), state[i].voice.selected, voices);
 
     cp.querySelector('.edit').addEventListener("click", (e) => {
       editItem(e, id)
@@ -128,10 +134,10 @@ function setupControlPanels() {
 }
 
 function setupUI() {
+  state = load();
+  setupCanvas(state);
   setupButtons();
-  setupControlPanels();
-  setUpCanvas();
-  setupPaths();
+  setupControlPanels(state);
 }
 
 function setupChatlistener() {
@@ -152,22 +158,14 @@ function setupChatlistener() {
   chatListener.client.on('message', (channel, tags, message, self) => {
     var sender = { base: tags['username'], display: tags['display-name'] };
     var username = sender.base !== sender.display.toLowerCase() ? sender.base : sender.display;
-    console.log(`${username}: ${message}`);
-  });
-}
-
-function setupPaths() {
-  pathGenerator = new PathGenerator();
-  var paths = document.getElementsByTagName("path");
-
-  // set up paths
-  Array.from(paths).forEach((p, i) => {
-    p.setAttribute("d", pathGenerator.paths["SW"]);
-    p.setAttribute("data-direction", "SW");
+    console.info(`${username}: ${message}`);
   });
 }
 
 function setVoices(dropdown, voice, voices) {
+  // Add default case (None) to voice indexes
+  voiceIndexes.set('None', 0);
+  
   // Setup dropdown
   voices.forEach((v, i) => {
     if (voiceIndexes.has(v.label) == false) {
@@ -183,18 +181,92 @@ function setVoices(dropdown, voice, voices) {
     dropdown.selectedIndex = voiceIndexes.get(voice);
   }
   else {
+    console.warn(`Unable to set dropdown for voice:${voice}, defaulting to None`);
     dropdown.selectedIndex = 0;
-    console.log(`Unable to set dropdown for voice:${voice}`);
   }
 }
 
-function setUpCanvas() {
+// State management
+function getLatestState() {
+  var newState = [];
+  var groups = Array.from(document.getElementsByTagName("g"))
+    .sort((a, b) => a.id - b.id);
+  groups.forEach((g) => {
+    var item = {};
+    item = getConfigData(g.id, item);
+    newState.push(item);
+  });
+
+  return newState;
+}
+
+function getCanvasPositions(id, item) {
+  var l = document.getElementById(`UN${id}`);
+  item.labelOffset = getTranslationCoordinates(l)
+
+  var p = document.getElementById(`SB${id}`);
+  item.offset = getTranslationCoordinates(p);
+
+  return item;
+}
+
+function getConfigData(id, item) {
+  var c = document.getElementById(`config-${id}`);
+  item.assignedName = c.querySelector('.card-header').value;
+  item.assignedUser = c.querySelector('.username-selector').value;
+  
+  item = getCanvasPositions(id, item);
+
+  item.type = c.querySelector('.direction-selector').value;
+
+  var enabled = c.querySelector('input[type="checkbox"]').checked;
+  var selectedVoice = c.querySelector('select').selectedOptions[0];
+  var selected = selectedVoice.label == "Select a Voice" ? "None" : selectedVoice.label;
+  
+  item.voice = {enabled, selected}
+
+  return item;
+}
+
+function getTranslationCoordinates(element) {
+  var transform = element.getAttribute('transform');
+  var coords = transform.match(/\d+\.?\d?/g);
+
+  return { x: Number(coords[0]), y: Number(coords[1]) };
+}
+
+// Canvas Setup
+function setupCanvas(state) {
+
+  setupCanvasItems(state);
+  setupCanvasEvents();
+}
+
+function setupCanvasEvents() {
   var canvas = document.getElementById("canvas");
 
   canvas.addEventListener('mousedown', startDrag);
   canvas.addEventListener('mousemove', drag);
   canvas.addEventListener('mouseup', endDrag);
   canvas.addEventListener('mouseleave', endDrag);
+}
 
-  return canvas;
+function setupCanvasItems(state) {
+  pathGenerator = new PathGenerator();
+  var groups = document.getElementsByTagName("g");
+
+  Array.from(groups).forEach((g, i) => {
+    var id = i + 1;
+    var p = document.getElementById(`SB${id}`);
+    p.setAttribute("d", pathGenerator.paths[state[i].type]);
+    p.setAttribute("data-direction", state[i].type);
+    p.setAttribute('transform', `translate(${state[i].offset.x},${state[i].offset.y})`);
+
+    var l = document.getElementById(`UN${id}`);
+    l.textContent = state[i].assignedUser;
+    l.setAttribute('transform', `translate(${state[i].labelOffset.x},${state[i].labelOffset.y})`);
+
+    var c = document.getElementById(`MC${id}`);
+    c.setAttribute('transform', `translate(${state[i].offset.x},${state[i].offset.y})`);
+  });
 }
