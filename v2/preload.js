@@ -129,12 +129,11 @@ function setupControlPanels() {
 }
 
 function setupUI() {
-  state = load();
+  var state = load();
   console.log(JSON.stringify(state))
+  setupCanvas(state);
   setupButtons();
   setupControlPanels();
-  setUpCanvas();
-  setupPaths();
 }
 
 function setupChatlistener() {
@@ -159,17 +158,6 @@ function setupChatlistener() {
   });
 }
 
-function setupPaths() {
-  pathGenerator = new PathGenerator();
-  var paths = document.getElementsByTagName("path");
-
-  // set up paths
-  Array.from(paths).forEach((p, i) => {
-    p.setAttribute("d", pathGenerator.paths["SW"]);
-    p.setAttribute("data-direction", "SW");
-  });
-}
-
 function setVoices(dropdown, voice, voices) {
   // Setup dropdown
   voices.forEach((v, i) => {
@@ -191,13 +179,31 @@ function setVoices(dropdown, voice, voices) {
   }
 }
 
-function setUpCanvas() {
+
+// Canvas Setup
+function setupCanvas(state) {
+
+  setupPaths(state);
+  setUpCanvasEvents();
+}
+
+function setUpCanvasEvents() {
   var canvas = document.getElementById("canvas");
 
   canvas.addEventListener('mousedown', startDrag);
   canvas.addEventListener('mousemove', drag);
   canvas.addEventListener('mouseup', endDrag);
   canvas.addEventListener('mouseleave', endDrag);
+}
 
-  return canvas;
+function setupPaths(state) {
+  var pathGenerator = new PathGenerator();
+  var paths = document.getElementsByTagName("path");
+
+  Array.from(paths).forEach((p, i) => {
+    // set up path
+    p.setAttribute("d", pathGenerator.paths[state[i].type]);
+    p.setAttribute("data-direction", state[i].type);
+    p.setAttribute('transform', `translate(${state[i].offset.x},${state[i].offset.y})`);
+  });
 }
