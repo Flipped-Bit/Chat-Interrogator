@@ -176,7 +176,7 @@ function setupChatlistener() {
 
     var labels = document.getElementsByTagName("text");
     var foundUser = Array.from(labels)
-      .find(e => e.textContent == username);
+      .find(e => e.textContent.toLowerCase() == username.toLowerCase());
 
     if (foundUser !== undefined) {
       updateUI(foundUser.dataset.id, message, username);
