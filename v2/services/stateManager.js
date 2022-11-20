@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { getDataFromConfigFile } = require('../utils/fileAccessManager');
 
-const saveStatePath = path.join(process.env.APPDATA, "Chat Interrogator", "saves");
+const saveStatePath = path.join(process.env.APPDATA, "Chat Interrogator", "saves", "saveState.json");
 
 function load() {
     if (fs.existsSync(saveStatePath)) {
@@ -24,8 +24,15 @@ function load() {
 }
 
 function save(saveState) {
-    var data = JSON.stringify(saveState, null, '\t');
-    fs.writeFile(saveStatePath, data, 'utf8', (err) => {
+    var saveData = JSON.stringify(saveState, null, '\t');
+    var defaultData = JSON.stringify(getDataFromConfigFile("defaultState.json"));
+
+    // If state is unchanged from default, avoid saving
+    if (defaultData == saveData) {
+        return
+    }
+
+    fs.writeFile(saveStatePath, saveData, 'utf8', (err) => {
         if (err) {
             console.error(`Failed to update Save State, ${err}`);
         }
