@@ -265,7 +265,7 @@ function setupCanvasItems(state) {
     p.setAttribute('transform', `translate(${state[i].offset.x},${state[i].offset.y})`);
 
     var l = document.getElementById(`UN${id}`);
-    l.textContent = state[i].assignedUser !== "" ? "USERNAME" : state[i].assignedUser;
+    l.textContent = state[i].assignedUser !== "" ? state[i].assignedUser : "USERNAME";
     l.setAttribute('transform', `translate(${state[i].labelOffset.x},${state[i].labelOffset.y})`);
 
     var c = document.getElementById(`MC${id}`);
