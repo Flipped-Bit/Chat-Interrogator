@@ -169,6 +169,17 @@ function setupChatlistener() {
   });
 }
 
+function updateUI(id, message, username) {
+  var label = document.getElementById(`UN${id}`);
+  label.textContent = username;
+
+  var lastMessage = document.getElementById(`LM${id}`);
+  lastMessage.innerText = validate(message);
+
+  var speechBubble = document.getElementById(`SB${id}`);
+  resetAnimations(id, lastMessage, speechBubble);
+}
+
 function validate(message) {
   if (message == "") {
     return message;
