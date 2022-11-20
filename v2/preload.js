@@ -66,8 +66,7 @@ function previousIcon(e, id) {
 }
 
 function setupControlPanels() {
-  var sidebar = document.getElementById("sidebar");
-  var controlPanels = sidebar.children;
+  var controlPanels = document.querySelectorAll('#sidebar > div[class="card"]');
 
   directions = getAvailableDirections();
   var voices = getAvailableVoices();
