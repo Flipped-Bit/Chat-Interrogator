@@ -198,12 +198,20 @@ function setupCanvasEvents() {
 
 function setupCanvasItems(state) {
   var pathGenerator = new PathGenerator();
-  var paths = document.getElementsByTagName("path");
+  var groups = document.getElementsByTagName("g");
 
-  Array.from(paths).forEach((p, i) => {
-    // set up path
+  Array.from(groups).forEach((g, i) => {
+    var id = i + 1;
+    var p = document.getElementById(`SB${id}`);
     p.setAttribute("d", pathGenerator.paths[state[i].type]);
     p.setAttribute("data-direction", state[i].type);
     p.setAttribute('transform', `translate(${state[i].offset.x},${state[i].offset.y})`);
+
+    var l = document.getElementById(`UN${id}`);
+    l.textContent = state[i].assignedUser;
+    l.setAttribute('transform', `translate(${state[i].labelOffset.x},${state[i].labelOffset.y})`);
+
+    var c = document.getElementById(`MC${id}`);
+    c.setAttribute('transform', `translate(${state[i].offset.x},${state[i].offset.y})`);
   });
 }
