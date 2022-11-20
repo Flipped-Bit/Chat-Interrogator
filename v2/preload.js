@@ -8,6 +8,7 @@ const { drag, endDrag, startDrag } = require('./services/canvasManager');
 const { load } = require('./services/stateManager')
 const { ipcRenderer } = require('electron');
 
+let state;
 let chatListener;
 var voiceIndexes = new Map();
 var isConnected = false;
@@ -129,7 +130,7 @@ function setupControlPanels() {
 }
 
 function setupUI() {
-  var state = load();
+  state = load();
   console.log(JSON.stringify(state))
   setupCanvas(state);
   setupButtons();
