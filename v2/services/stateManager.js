@@ -25,7 +25,7 @@ function save(saveState) {
 
     // If state is unchanged from default, avoid saving
     if (defaultData == saveData) {
-        return
+        return;
     }
 
     var saveStatePath = path.join(saveStateDir, "saveState.json");
