@@ -166,6 +166,14 @@ function setupChatlistener() {
     var sender = { base: tags['username'], display: tags['display-name'] };
     var username = sender.base !== sender.display.toLowerCase() ? sender.base : sender.display;
     console.info(`${username}: ${message}`);
+
+    var labels = document.getElementsByTagName("text")
+    var foundUser = Array.from(labels)
+                         .find(e => e.textContent == username)
+
+    if (foundUser !== undefined){
+      updateUI(foundUser.dataset.id, message, username)
+    } 
   });
 }
 
