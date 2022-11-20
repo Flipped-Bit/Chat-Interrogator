@@ -14,6 +14,9 @@ function load() {
             return JSON.parse(rawdata);
         }
     }
+    else {
+        fs.mkdirSync(saveStateDir);
+    }
 
     console.info("Save State not found, loading default layout");
     return getDataFromConfigFile("defaultState.json");
