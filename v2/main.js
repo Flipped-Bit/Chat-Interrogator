@@ -3,6 +3,7 @@
 // Modules to control application life and create native browser window
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
+const https = require('https');
 
 function createWindow() {
   // Create the browser window.
@@ -46,3 +47,41 @@ app.on('window-all-closed', function () {
 ipcMain.on('closeApp', (evt, arg) => {
   app.quit();
 });
+
+function getAudioForText(text, voice) {
+  const data = JSON.stringify({
+    voice: voice,
+    text: text
+  });
+
+  const options = {
+    hostname: 'streamlabs.com',
+    path: '/polly/speak',
+    port: 443,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Content-Length': data.length
+    }
+  };
+
+  return new Promise(function (resolve, reject) {
+    const req = https.request(options, (res) => {
+      let result = '';
+
+      res.on('data', (chunk) => {
+        result += chunk;
+      });
+
+      res.on('end', () => {
+        resolve(result);
+      });
+
+    }).on("error", (err) => {
+      reject(err.message);
+    });
+
+    req.write(data);
+    req.end();
+  });
+}
