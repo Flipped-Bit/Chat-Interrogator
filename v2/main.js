@@ -4,10 +4,11 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const https = require('https');
+let mainWindow;
 
 function createWindow() {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 1400,
     height: 1080,
     frame: false,
@@ -46,6 +47,12 @@ app.on('window-all-closed', function () {
 
 ipcMain.on('closeApp', (evt, arg) => {
   app.quit();
+});
+
+ipcMain.on('getTTS', async (evt, arg) => {
+  var result = await getAudioForText(arg.message, arg.voice);
+  var parsedResult = JSON.parse(result);
+  mainWindow.webContents.send('audioUpdated', { id: arg.id, url: parsedResult.speak_url })
 });
 
 function getAudioForText(text, voice) {

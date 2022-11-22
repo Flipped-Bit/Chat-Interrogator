@@ -179,6 +179,14 @@ function setupChatlistener() {
       .find(e => e.textContent.toLowerCase() == username.toLowerCase());
 
     if (foundUser !== undefined) {
+      // get voice
+      var voice = document.getElementById(`VC${foundUser.dataset.id}`)
+      if (!voice.disabled) {
+        if (voice.selectedIndex !== 0) {
+          var voiceName = voice.selectedOptions[0];
+          ipcRenderer.send('getTTS', { id: foundUser.dataset.id, message: message, voice: voiceName.value });
+        }
+      }
       updateUI(foundUser.dataset.id, message, username);
     }
   });
