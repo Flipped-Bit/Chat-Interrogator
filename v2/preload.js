@@ -144,6 +144,10 @@ function setupControlPanels(state) {
 }
 
 function setupUI() {
+
+  ipcRenderer.on('audioUpdated', (_, arg) => {
+    updateAudio(arg.id, arg.url);
+  })
   state = load();
   setupCanvas(state);
   setupButtons();
@@ -179,6 +183,14 @@ function setupChatlistener() {
       .find(e => e.textContent.toLowerCase() == username.toLowerCase());
 
     if (foundUser !== undefined) {
+      // get voice
+      var voice = document.getElementById(`VC${foundUser.dataset.id}`)
+      if (!voice.disabled) {
+        if (voice.selectedIndex !== 0) {
+          var voiceName = voice.selectedOptions[0];
+          ipcRenderer.send('getTTS', { id: foundUser.dataset.id, message: message, voice: voiceName.value });
+        }
+      }
       updateUI(foundUser.dataset.id, message, username);
     }
   });
@@ -341,4 +353,13 @@ function resetAnimations(id, lm, sb) {
   // re-add animation
   lm.classList.add("fadeOut");
   sb.classList.add("fadeOut");
+}
+
+function updateAudio(id, audioUrl) {
+  var source = document.getElementById(`AS${id}`);
+  source.src = audioUrl;
+
+  var audioPlayer = document.getElementById(`AP${id}`);
+  audioPlayer.load();
+  audioPlayer.play();
 }

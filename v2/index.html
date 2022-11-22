@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src wss://irc-ws.chat.twitch.tv;">
-  <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; connect-src wss://irc-ws.chat.twitch.tv;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src wss://irc-ws.chat.twitch.tv; media-src https://polly.streamlabs.com;">
+  <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; connect-src wss://irc-ws.chat.twitch.tv; media-src https://polly.streamlabs.com;">
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
@@ -46,7 +46,7 @@
               <input class="username-selector" placeholder="username" >
             </div>
             <div>
-              <select placeholder="username">
+              <select id="VC1" placeholder="username">
                 <option>Select a Voice</option>
               </select>
               <input type="checkbox">
@@ -76,7 +76,7 @@
               <input class="username-selector" placeholder="username" >
             </div>
             <div>
-              <select placeholder="username">
+              <select id="VC2" placeholder="username">
                 <option>Select a Voice</option>
               </select>
               <input type="checkbox">
@@ -106,7 +106,7 @@
               <input class="username-selector" placeholder="username" >
             </div>
             <div>
-              <select placeholder="username">
+              <select id="VC3" placeholder="username">
                 <option>Select a Voice</option>
               </select>
               <input type="checkbox">
@@ -136,7 +136,7 @@
               <input class="username-selector" placeholder="username" >
             </div>
             <div>
-              <select placeholder="username">
+              <select id="VC4" placeholder="username">
                 <option>Select a Voice</option>
               </select>
               <input type="checkbox">
@@ -153,8 +153,8 @@
             <path class="confine" id="SB1" fill="#FFF" stroke="#000" stroke-width="3"></path>
             <foreignObject id="MC1" height="110" pointer-events="none" width="230" x="95" y="79">
               <div id="LM1">Speech Bubble 1 Created</div>
-              <audio autoplay class="player">
-                <audio class="source" src type="audio/mpeg"></audio>
+              <audio id="AP1" autoplay class="player">
+                <source id="AS1" class="source" src="" type="audio/mpeg"/>
               </audio>
             </foreignObject>
             <text id="UN1" class="confine" data-id="1" dominant-baseline="middle" fill="black" font-weight="bold" stroke="white" stroke-width="0.3" text-anchor="middle" x="210" y="20">USERNAME</text>
@@ -163,8 +163,8 @@
             <path class="confine" id="SB2" fill="#FFF" stroke="#000" stroke-width="3"></path>
             <foreignObject id="MC2" height="110" pointer-events="none" width="230" x="95" y="79">
               <div id="LM2">Speech Bubble 2 Created</div>
-              <audio autoplay class="player">
-                <audio class="source" src type="audio/mpeg"></audio>
+              <audio id="AP2" autoplay class="player">
+                <source id="AS2" class="source" src="" type="audio/mpeg"></audio>
               </audio>
             </foreignObject>
             <text id="UN2" data-id="2" class="confine" dominant-baseline="middle" fill="black" font-weight="bold" stroke="white" stroke-width="0.3" text-anchor="middle" x="210" y="20">USERNAME</text>
@@ -173,8 +173,8 @@
             <path class="confine" id="SB3" fill="#FFF" stroke="#000" stroke-width="3"></path>
             <foreignObject id="MC3" height="110" pointer-events="none" width="230" x="95" y="79">
               <div id="LM3">Speech Bubble 3 Created</div>
-              <audio autoplay class="player">
-                <audio class="source" src type="audio/mpeg"></audio>
+              <audio id="AP3" autoplay class="player">
+                <source id="AS3" class="source" src="" type="audio/mpeg"></audio>
               </audio>
             </foreignObject>
             <text id="UN3" class="confine" data-id="3" dominant-baseline="middle" fill="black" font-weight="bold" stroke="white" stroke-width="0.3" text-anchor="middle" x="210" y="20">USERNAME</text>
@@ -183,8 +183,8 @@
             <path class="confine" id="SB4" fill="#FFF" stroke="#000" stroke-width="3"></path>
             <foreignObject id="MC4" height="110" pointer-events="none" width="230" x="95" y="79">
               <div id="LM4">Speech Bubble 4 Created</div>
-              <audio autoplay class="player">
-                <audio class="source" src type="audio/mpeg"></audio>
+              <audio id="AP4" autoplay class="player">
+                <source id="AS4" class="source" src="" type="audio/mpeg"></audio>
               </audio>
             </foreignObject>
             <text id="UN4" class="confine" data-id="4" dominant-baseline="middle" fill="black" font-weight="bold" stroke="white" stroke-width="0.3" text-anchor="middle" x="210" y="20">USERNAME</text>
