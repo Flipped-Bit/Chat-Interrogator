@@ -1,7 +1,7 @@
 {
   "name": "chat_interrogator",
   "productName": "Chat Interrogator",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Application for viewing the latest messages from specific users in specific Twitch channels",
   "main": "main.js",
   "scripts": {

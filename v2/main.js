@@ -68,7 +68,8 @@ function getAudioForText(text, voice) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Content-Length': data.length
+      'Content-Length': data.length,
+      'referer': 'https://streamlabs.com'
     }
   };
 
